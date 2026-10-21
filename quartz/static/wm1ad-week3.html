@@ -1,0 +1,1038 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>WM1AD Week 3 Guide</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..800&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a bench notebook. One column, eight chapters following the power chain from wall socket to motor; every chapter = picture, plain-English idea, derivation, live calculator */
+:root{
+  --bg:#eef1f4; --panel:#ffffff; --ink:#18212b; --muted:#5a6774; --line:#c9d1da; --soft:#e4e9ee;
+  --volt:#1f6f8b;   /* voltages */
+  --amp:#d9822b;    /* current, active path, key results */
+  --cap:#6a4fb3;    /* second path / RMS / capacitor */
+  --good:#2e7d4f; --bad:#c0392b;
+  --f-display:"Archivo",system-ui,sans-serif; --f-body:"Source Sans 3",system-ui,sans-serif; --f-mono:"JetBrains Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#11161c; --panel:#1a2129; --ink:#e3e8ee; --muted:#93a1ae; --line:#2e3944; --soft:#232c36;
+  --volt:#5fb4d3; --amp:#f0a050; --cap:#a78bfa; --good:#5cc489; --bad:#ef6f62; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#11161c; --panel:#1a2129; --ink:#e3e8ee; --muted:#93a1ae; --line:#2e3944; --soft:#232c36;
+  --volt:#5fb4d3; --amp:#f0a050; --cap:#a78bfa; --good:#5cc489; --bad:#ef6f62; color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--ink);font:17px/1.6 var(--f-body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 72px}
+main{max-width:880px;margin:0 auto;display:flex;flex-direction:column;gap:56px}
+h1,h2,h3{font-family:var(--f-display);font-stretch:80%;line-height:1.15;text-wrap:balance;margin:0}
+h1{font-size:clamp(2.1rem,6vw,3.3rem);font-weight:800}
+h2{font-size:clamp(1.5rem,4vw,1.9rem);font-weight:700}
+h3{font-size:1.15rem;font-weight:700;font-stretch:90%}
+p{margin:0;max-width:68ch}
+ul{margin:0;padding-left:22px;max-width:68ch;display:flex;flex-direction:column;gap:4px}
+a{color:var(--volt)}
+.eyebrow{font:600 .75rem/1.2 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+section.ch{display:flex;flex-direction:column;gap:18px;scroll-margin-top:16px}
+.chhead{display:flex;flex-direction:column;gap:6px;border-top:2px solid var(--ink);padding-top:14px}
+.chnum{font:600 .8rem var(--f-mono);color:var(--amp);letter-spacing:.08em}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.idea{font-size:1.06rem}
+.idea strong{color:var(--ink)}
+canvas{width:100%;display:block;border-radius:6px}
+.svgwrap{overflow-x:auto}
+svg.dia{display:block;width:100%;max-width:640px;margin:0 auto}
+svg.dia.wide{min-width:460px}
+svg text{font-family:var(--f-mono)}
+.row{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+button,select,input{font:inherit}
+button{font:600 .9rem var(--f-body);border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:6px;padding:6px 12px;cursor:pointer}
+button[aria-pressed="true"]{background:var(--ink);color:var(--panel);border-color:var(--ink)}
+button:focus-visible,select:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid var(--amp);outline-offset:2px}
+label{font-size:.95rem;color:var(--muted);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+input[type=range]{width:min(220px,55vw);accent-color:var(--cap)}
+select,input[type=number]{background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:5px 8px}
+input[type=number]{width:90px}
+.readout{font:600 .95rem var(--f-mono);font-variant-numeric:tabular-nums}
+.key{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.88rem;color:var(--muted)}
+.key i{display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:middle;margin-right:6px}
+.work{font:.95rem/1.95 var(--f-mono);font-variant-numeric:tabular-nums;background:var(--bg);border-radius:8px;padding:12px 14px;overflow-x:auto}
+.hi{color:var(--amp);font-weight:600}
+.c{color:var(--muted)}
+.ok{color:var(--good);font-weight:600} .no{color:var(--bad);font-weight:600}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;font-size:.95rem}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:600 .75rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.tablewrap{overflow-x:auto}
+td.sym{white-space:nowrap;font-weight:700}
+/* equations without a maths library */
+sub,sup{font-size:.72em;line-height:0}
+.eq{font:1.12rem/1.7 var(--f-body);display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;padding:10px 14px;border-left:3px solid var(--amp);background:var(--bg);border-radius:0 8px 8px 0;overflow-x:auto}
+.eq.plain{border-left-color:var(--line)}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.25}
+.frac>span:first-child{border-bottom:1.5px solid currentColor;padding:0 5px 2px}
+.frac>span:last-child{padding:2px 5px 0}
+.ans{color:var(--amp);font-weight:600}
+/* derivations */
+.deriv{display:flex;flex-direction:column;gap:10px}
+.deriv>ol{margin:0;padding-left:24px;display:flex;flex-direction:column;gap:9px;max-width:70ch}
+.deriv>ol>li::marker{font-family:var(--f-mono);color:var(--amp)}
+details.deriv{border:1px solid var(--line);border-radius:10px;padding:12px 16px;background:var(--panel)}
+details.deriv>summary{cursor:pointer;font:700 1.02rem var(--f-display);font-stretch:90%;list-style:none;display:flex;gap:10px;align-items:baseline}
+details.deriv>summary::before{content:"+";font-family:var(--f-mono);color:var(--amp);width:1ch}
+details.deriv[open]>summary::before{content:"−"}
+details.deriv[open]>summary{margin-bottom:6px}
+.toc{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:8px}
+.toc a{display:flex;gap:10px;align-items:baseline;text-decoration:none;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:9px 12px}
+.toc a b{font:600 .8rem var(--f-mono);color:var(--amp)}
+.toc a:hover{border-color:var(--amp)}
+.flow{stroke-dasharray:7 7;animation:flow .6s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-14}}
+@media (prefers-reduced-motion:reduce){.flow{animation:none}}
+.live{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.meter{background:var(--bg);border-radius:8px;padding:10px 14px;display:flex;flex-direction:column;gap:2px}
+.big{font:600 1.6rem var(--f-mono);font-variant-numeric:tabular-nums}
+.small{font-size:.86rem;color:var(--muted)}
+.on{color:var(--amp);font-weight:600} .off{color:var(--muted)}
+.steps{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:3px}
+.steps li::marker{font-family:var(--f-mono);color:var(--amp)}
+.bar{display:flex;height:26px;border-radius:6px;overflow:hidden;background:var(--soft)}
+.bar span{display:flex;align-items:center;justify-content:center;font:600 .78rem var(--f-mono);color:var(--panel);white-space:nowrap;overflow:hidden;min-width:0}
+.warn{border-left:3px solid var(--bad);padding:4px 0 4px 14px}
+.tip{border-left:3px solid var(--cap);padding:4px 0 4px 14px}
+footer{color:var(--muted);font-size:.9rem}
+</style>
+
+</head>
+<body>
+<p style="max-width:880px;margin:0 auto 12px"><a href="../wm1ad/">← Back to the WM1AD guides</a></p>
+<main>
+<header style="display:flex;flex-direction:column;gap:14px">
+  <span class="eyebrow">WM1AD Electrical Power and Motors · Week 3 · Dr Borislav Dimitrov</span>
+  <h1>From the wall socket to the motor</h1>
+  <p>This week follows electrical energy along one chain. AC from the grid is turned into DC, a switch chops that DC to control it, the switch heats up and needs cooling, a converter changes the voltage, and a driver feeds the motor. Each chapter has a picture, the idea in plain English, the formula worked out from scratch, and a calculator loaded with the lecture's numbers.</p>
+  <div class="panel" style="padding:12px 10px">
+    <div class="svgwrap">
+    <svg class="dia wide" style="max-width:none" viewBox="0 0 760 120" role="img" aria-label="The power chain: grid, rectifier, DC bus, converter, motor drive, motor">
+      <g id="chain"></g>
+    </svg></div>
+  </div>
+  <nav class="toc" aria-label="Chapters">
+    <a href="#symbols"><b>00</b>Every symbol</a>
+    <a href="#ac"><b>01</b>AC values</a>
+    <a href="#rectifier"><b>02</b>Diodes and the bridge</a>
+    <a href="#smoothing"><b>03</b>Capacitor smoothing and bridge heat</a>
+    <a href="#switches"><b>04</b>Switches: relay, BJT, MOSFET, IGBT</a>
+    <a href="#pwm"><b>05</b>PWM</a>
+    <a href="#losses"><b>06</b>MOSFET power loss</a>
+    <a href="#thermal"><b>07</b>Heat, thermal resistance and heatsinks</a>
+    <a href="#dcdc"><b>08</b>DC/DC converters</a>
+    <a href="#drives"><b>09</b>Motor drives</a>
+    <a href="#sheet"><b>10</b>Formula sheet and checklist</a>
+  </nav>
+</header>
+
+<!-- 00 SYMBOLS -->
+<section class="ch" id="symbols" aria-labelledby="h0">
+  <div class="chhead"><span class="chnum">00</span><h2 id="h0">Every symbol, in one place</h2></div>
+  <p>The lectures use a lot of subscripts. Come back here whenever one isn't obvious.</p>
+  <div class="panel" style="padding:6px">
+    <div class="tablewrap"><table>
+      <thead><tr><th>Symbol</th><th>Name</th><th>Plain meaning</th><th>Unit</th><th>Where from</th></tr></thead>
+      <tbody>
+        <tr><td colspan="5" class="eyebrow" style="padding-top:12px">AC and rectifiers</td></tr>
+        <tr><td class="sym">V<sub>RMS</sub></td><td>RMS voltage</td><td>The "equivalent DC" value of AC. The 230 V on the socket</td><td>V</td><td>Given</td></tr>
+        <tr><td class="sym">V<sub>pk</sub></td><td>Peak voltage</td><td>The very top of the AC wave</td><td>V</td><td>√2 × V<sub>RMS</sub></td></tr>
+        <tr><td class="sym">V<sub>avg</sub></td><td>Average voltage</td><td>Mean height of one hump</td><td>V</td><td>0.637 × V<sub>pk</sub></td></tr>
+        <tr><td class="sym">F<sub>grid</sub></td><td>Grid frequency</td><td>AC cycles per second</td><td>Hz</td><td>50 Hz (UK)</td></tr>
+        <tr><td class="sym">V<sub>F</sub></td><td>Forward voltage</td><td>The fixed voltage a diode uses up while conducting, about 1 V</td><td>V</td><td>Datasheet</td></tr>
+        <tr><td class="sym">I<sub>D,RMS</sub></td><td>Diode current (RMS)</td><td>Current through the bridge, as a meter reads it</td><td>A</td><td>Given</td></tr>
+        <tr><td class="sym">P<sub>D(FB)</sub></td><td>Power dissipated, full bridge</td><td>Heat made by the four diodes</td><td>W</td><td>Calculated</td></tr>
+        <tr><td class="sym">I<sub>F(AV)</sub></td><td>Rated average forward current</td><td>Most average current the diode or bridge may carry</td><td>A</td><td>Datasheet</td></tr>
+        <tr><td class="sym">V<sub>RRM</sub></td><td>Repetitive peak reverse voltage</td><td>Most reverse voltage a diode can block, cycle after cycle</td><td>V</td><td>Datasheet</td></tr>
+        <tr><td class="sym">C</td><td>Capacitance</td><td>Size of a capacitor: charge stored per volt (Q = CV)</td><td>F, µF</td><td>Given / chosen</td></tr>
+        <tr><td class="sym">ΔV</td><td>Ripple</td><td>How far a smoothed voltage dips and rises</td><td>V</td><td>Calculated</td></tr>
+        <tr><td colspan="5" class="eyebrow" style="padding-top:12px">Switches and MOSFET losses</td></tr>
+        <tr><td class="sym">G, D, S</td><td>Gate, drain, source</td><td>MOSFET legs. The gate controls; current flows drain → source</td><td></td><td></td></tr>
+        <tr><td class="sym">B, C, E</td><td>Base, collector, emitter</td><td>BJT legs. Base current controls collector current</td><td></td><td></td></tr>
+        <tr><td class="sym">V<sub>DD</sub></td><td>Supply voltage</td><td>The DC rail the MOSFET switches (the battery)</td><td>V</td><td>Given</td></tr>
+        <tr><td class="sym">I<sub>D</sub></td><td>Drain current</td><td>Current through the MOSFET when on</td><td>A</td><td>Given</td></tr>
+        <tr><td class="sym">V<sub>GS(th)</sub></td><td>Gate threshold voltage</td><td>Gate voltage at which the MOSFET starts to turn on</td><td>V</td><td>Datasheet</td></tr>
+        <tr><td class="sym">V<sub>DSS</sub></td><td>Max drain-source voltage</td><td>Most voltage the MOSFET can block when off</td><td>V</td><td>Datasheet</td></tr>
+        <tr><td class="sym">R<sub>DS(on)</sub></td><td>On-resistance</td><td>The MOSFET's resistance when fully on</td><td>Ω</td><td>Datasheet (static)</td></tr>
+        <tr><td class="sym">t<sub>d(on)</sub>, t<sub>r</sub></td><td>Turn-on delay, rise time</td><td>How long switching on takes, in two parts</td><td>ns</td><td>Datasheet (dynamic)</td></tr>
+        <tr><td class="sym">t<sub>d(off)</sub>, t<sub>f</sub></td><td>Turn-off delay, fall time</td><td>How long switching off takes, in two parts</td><td>ns</td><td>Datasheet (dynamic)</td></tr>
+        <tr><td class="sym">F<sub>SW</sub></td><td>Switching frequency</td><td>How many on/off cycles per second</td><td>Hz</td><td>Given</td></tr>
+        <tr><td class="sym">D</td><td>Duty cycle</td><td>Fraction of each cycle the switch is on (0 to 1)</td><td></td><td>t<sub>on</sub> / T</td></tr>
+        <tr><td class="sym">E<sub>ON</sub>, E<sub>OFF</sub></td><td>Switching energies</td><td>Energy lost in one turn-on, one turn-off</td><td>J</td><td>Calculated</td></tr>
+        <tr><td class="sym">P<sub>cond</sub>, P<sub>SW</sub></td><td>Conduction, switching loss</td><td>Heat while on, heat while switching</td><td>W</td><td>Calculated</td></tr>
+        <tr><td colspan="5" class="eyebrow" style="padding-top:12px">Heat</td></tr>
+        <tr><td class="sym">T<sub>J</sub></td><td>Junction temperature</td><td>Temperature of the silicon inside. The one that must stay safe</td><td>°C</td><td>Calculated</td></tr>
+        <tr><td class="sym">T<sub>C</sub>, T<sub>hs</sub>, T<sub>amb</sub></td><td>Case, heatsink, ambient temperature</td><td>Temperatures along the path the heat takes</td><td>°C</td><td>Calculated / given</td></tr>
+        <tr><td class="sym">R<sub>th</sub></td><td>Thermal resistance</td><td>How many °C hotter one side gets per watt flowing through</td><td>°C/W</td><td>Datasheet / chosen</td></tr>
+        <tr><td class="sym">R<sub>th1</sub>, R<sub>th2</sub>, R<sub>th3</sub></td><td>Junction→case, case→heatsink, heatsink→air</td><td>The three steps of the path</td><td>°C/W</td><td>Datasheet, datasheet, heatsink choice</td></tr>
+        <tr><td class="sym">R<sub>thJA</sub></td><td>Junction→ambient (no heatsink)</td><td>The whole path when the part stands alone</td><td>°C/W</td><td>Datasheet</td></tr>
+        <tr><td colspan="5" class="eyebrow" style="padding-top:12px">Converters and drives</td></tr>
+        <tr><td class="sym">V<sub>in</sub>, V<sub>out</sub></td><td>Input, output voltage</td><td>Converter's supply and result</td><td>V</td><td></td></tr>
+        <tr><td class="sym">L</td><td>Inductance</td><td>Size of the inductor: resists changes in current</td><td>H, µH</td><td>Calculated</td></tr>
+        <tr><td class="sym">ΔI<sub>L</sub></td><td>Inductor ripple current</td><td>How much the inductor current wobbles</td><td>A</td><td>Chosen, e.g. 10% of I</td></tr>
+        <tr><td class="sym">V<sub>L</sub></td><td>Line voltage (3-phase)</td><td>Voltage between two motor phases</td><td>V</td><td>V<sub>DC</sub> / √2 (slide)</td></tr>
+        <tr><td class="sym">cos φ</td><td>Power factor</td><td>How much of the current does useful work (0.92–1)</td><td></td><td>Given</td></tr>
+        <tr><td class="sym">η</td><td>Efficiency</td><td>Output power ÷ input power (90–95%)</td><td></td><td>Given</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- 01 AC -->
+<section class="ch" id="ac" aria-labelledby="h1">
+  <div class="chhead"><span class="chnum">01 · SESSION 1</span><h2 id="h1">AC values: peak, RMS and average</h2></div>
+  <p class="idea">Mains is a sine wave that pushes current one way then the other, 50 times a second. The "230 V" printed on everything is the <strong>RMS</strong> value: the DC voltage that would heat a kettle by the same amount. The wave itself reaches <strong>325 V</strong>. Components have to survive the peak, not the RMS.</p>
+  <div class="panel">
+    <canvas id="cvLevels" height="290" aria-label="Sine wave with peak, RMS and average levels marked"></canvas>
+    <div class="key"><span><i style="background:var(--volt)"></i>AC wave</span><span><i style="background:var(--amp)"></i>V<sub>pk</sub> 325 V</span><span><i style="background:var(--cap)"></i>V<sub>RMS</sub> 230 V</span><span><i style="background:var(--good)"></i>V<sub>avg</sub> of a hump 207 V</span></div>
+  </div>
+  <div class="tablewrap panel" style="padding:6px"><table>
+    <thead><tr><th>Convert</th><th>Multiply by</th><th>Mains example</th></tr></thead>
+    <tbody>
+      <tr><td>RMS → peak</td><td><b>1.41</b> (√2)</td><td>230 × 1.41 = 325 V</td></tr>
+      <tr><td>Peak → RMS</td><td><b>0.707</b> (1/√2)</td><td>325 × 0.707 = 230 V</td></tr>
+      <tr><td>Peak → average of a hump</td><td><b>0.637</b> (2/π)</td><td>325 × 0.637 = 207 V</td></tr>
+      <tr><td>RMS → average</td><td><b>0.9</b></td><td>230 × 0.9 = 207 V</td></tr>
+      <tr><td>Peak → peak-to-peak</td><td><b>2</b></td><td>650 V</td></tr>
+    </tbody>
+  </table></div>
+  <details class="deriv" open>
+    <summary>Derivation: why peak = 1.41 × RMS</summary>
+    <ol>
+      <li>RMS means <b>R</b>oot of the <b>M</b>ean of the <b>S</b>quare: square the wave, average it, then square-root it. We square because heating power goes as V².</li>
+      <li>The wave is V = V<sub>pk</sub> sin θ, so V² = V<sub>pk</sub>² sin² θ.</li>
+      <li>Over a whole cycle, sin² θ averages to exactly ½. It spends as long above ½ as below it.</li>
+      <li>So the mean of the square is ½ V<sub>pk</sub>², and its square root is:</li>
+    </ol>
+    <div class="eq">V<sub>RMS</sub> = <span class="frac"><span>V<sub>pk</sub></span><span>√2</span></span> = 0.707 V<sub>pk</sub> &nbsp;⇒&nbsp; V<sub>pk</sub> = √2 × 230 = <span class="ans">325.3 V</span></div>
+  </details>
+  <details class="deriv">
+    <summary>Derivation: why average = 0.637 × peak, and average = 0.9 × RMS</summary>
+    <ol>
+      <li>Average height of one hump = its area ÷ its width.</li>
+      <li>Area under one hump of sin θ, from 0 to π, is exactly 2 (∫ sin θ dθ = [−cos θ] = 1 + 1). Width is π.</li>
+      <li>So the average is 2/π = 0.637 of the peak.</li>
+      <li>RMS is 0.707 of the same peak. Divide one by the other and the peak cancels:</li>
+    </ol>
+    <div class="eq"><span class="frac"><span>avg</span><span>RMS</span></span> = <span class="frac"><span>0.637</span><span>0.707</span></span> = <span class="ans">0.9</span></div>
+  </details>
+  <p class="tip"><b>Meter tip from the slides:</b> an ordinary multimeter only reads RMS correctly for a clean 50 Hz sine. For PWM or distorted waves use a <b>true-RMS</b> meter, or look at it on an oscilloscope.</p>
+</section>
+
+<!-- 02 RECTIFIER -->
+<section class="ch" id="rectifier" aria-labelledby="h2">
+  <div class="chhead"><span class="chnum">02 · SESSION 1</span><h2 id="h2">Diodes and the full bridge rectifier</h2></div>
+  <p class="idea">A <strong>diode</strong> is a one-way valve. Current flows the way the triangle points, and costs a fixed toll of <strong>V<sub>F</sub> ≈ 1 V</strong>. Backwards, it blocks (up to its limit V<sub>RRM</sub>). One diode alone (a <strong>half-wave rectifier</strong>) throws away the negative half. Four diodes in a diamond (a <strong>full bridge</strong>) flip the negative half upwards so none is wasted.</p>
+  <div class="grid2">
+    <div class="panel">
+      <span class="eyebrow">Forward biased: conducts</span>
+      <svg class="dia" viewBox="0 0 300 90" role="img" aria-label="Forward biased diode">
+        <g id="dfwd"></g>
+      </svg>
+      <p class="small">Anode (+) higher than cathode (−). Current flows, minus V<sub>F</sub>.</p>
+    </div>
+    <div class="panel">
+      <span class="eyebrow">Reverse biased: blocks</span>
+      <svg class="dia" viewBox="0 0 300 90" role="img" aria-label="Reverse biased diode">
+        <g id="drev"></g>
+      </svg>
+      <p class="small">Cathode higher than anode. No current, as long as the voltage stays under V<sub>RRM</sub>.</p>
+    </div>
+  </div>
+  <div class="panel">
+    <span class="eyebrow">Live bridge · corners A and B take the AC, + and − feed the load</span>
+    <div class="row">
+      <button id="play" aria-pressed="true">Pause</button>
+      <button id="posBtn">Positive half</button>
+      <button id="negBtn">Negative half</button>
+      <button id="stepBtn">Step forward</button>
+      <label for="speed">Speed <input type="range" id="speed" min="1" max="10" value="4"></label>
+    </div>
+    <div class="svgwrap"><svg id="bridge" class="dia wide" viewBox="0 0 500 360" role="img" aria-label="Full bridge rectifier with the conducting path highlighted"></svg></div>
+    <div class="live">
+      <div class="meter"><span class="eyebrow">AC right now</span><span class="big" id="vin"></span><span id="vinNote" class="small"></span></div>
+      <div class="meter"><span class="eyebrow">Across the load</span><span class="big" id="vout"></span><span class="small">|AC| − 2 × V<sub>F</sub>, always + on the right</span></div>
+    </div>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Diode</th><th>Allows</th><th>State</th><th>Why</th></tr></thead>
+      <tbody id="dstate"></tbody>
+    </table></div>
+    <div><span class="eyebrow">Follow the current</span><ol class="steps" id="steps"></ol></div>
+    <canvas id="cvBridgeWave" height="140" aria-label="Scrolling AC input and rectified output"></canvas>
+    <div class="key"><span><i style="background:var(--volt)"></i>AC in</span><span><i style="background:var(--amp)"></i>Output across the load</span><span>Dotted line = now</span></div>
+  </div>
+  <details class="deriv" open>
+    <summary>How the bridge works, in six steps</summary>
+    <ol>
+      <li><b>Read each diode as a rule.</b> D1 allows A → +. D2 allows B → +. D3 allows − → A. D4 allows − → B.</li>
+      <li><b>Spot the pattern.</b> Two arrows point <em>into</em> +, two point <em>out of</em> −. So current can only arrive at + and leave from −. It always goes through the load from + to −.</li>
+      <li><b>Positive half: A pushes.</b> A → + through D1, through the load, then − → B through D4. D1 and D4 on, D2 and D3 off.</li>
+      <li><b>Negative half: B pushes.</b> B → + through D2, through the load, then − → A through D3. D2 and D3 on, D1 and D4 off.</li>
+      <li><b>Result:</b> the load sees the same polarity every half-cycle. The output is a row of positive humps, <b>100 per second</b> (2 per AC cycle).</li>
+      <li><b>Cost:</b> current always passes through <b>exactly two diodes</b>, so the output peak is V<sub>pk</sub> − 2V<sub>F</sub>, and two diodes are always making heat.</li>
+    </ol>
+  </details>
+  <div class="tablewrap panel" style="padding:6px"><table>
+    <thead><tr><th>Type</th><th>Diodes</th><th>Output</th><th>Where you see it</th></tr></thead>
+    <tbody>
+      <tr><td>Half-wave</td><td>1</td><td>One hump per cycle, gaps in between</td><td>Very cheap, low-power circuits</td></tr>
+      <tr><td>Full bridge, single-phase</td><td>4</td><td>Two humps per cycle</td><td>Phone and robot chargers</td></tr>
+      <tr><td>Full bridge, three-phase</td><td>6</td><td>Six overlapping humps per cycle, nearly flat</td><td>Industrial kit, the big 3D printer on the slide</td></tr>
+    </tbody>
+  </table></div>
+  <p class="tip"><b>Choosing a bridge from its datasheet:</b> I<sub>F(AV)</sub> must be above your current with margin (the slide uses about 50%), and V<sub>RRM</sub> must be above the peak, 325 V, with margin. An 800 V part is typical for 230 V mains.</p>
+</section>
+
+<!-- 03 SMOOTHING + BRIDGE HEAT -->
+<section class="ch" id="smoothing" aria-labelledby="h3">
+  <div class="chhead"><span class="chnum">03 · SESSIONS 2–3</span><h2 id="h3">Capacitor smoothing and bridge heat</h2></div>
+  <p class="idea">The humps still drop to 0 V. A <strong>capacitor</strong> across the output acts like a water tank: it fills at each peak, and the load drains it a little until the next hump tops it up. The dip is the <strong>ripple, ΔV</strong>. Meanwhile the two conducting diodes turn some power into <strong>heat, P<sub>D(FB)</sub></strong>.</p>
+  <div class="panel">
+    <div class="row">
+      <label for="cSlider">Capacitor C <input type="range" id="cSlider" min="0" max="1000" value="0"></label><span class="readout" id="cOut"></span>
+      <label for="iSlider">Load current <input type="range" id="iSlider" min="1" max="50" value="15"></label><span class="readout" id="iOut"></span>
+    </div>
+    <div class="row" role="group" aria-label="Group capacitor presets">
+      <span class="eyebrow">Groups</span>
+      <button data-c="1000">A · 1000 µF</button><button data-c="2200">B · 2200 µF</button><button data-c="4700">C · 4700 µF</button><button data-c="8000">D · 8000 µF</button>
+    </div>
+    <canvas id="cvRipple" height="240" aria-label="Rectified humps and smoothed capacitor voltage"></canvas>
+    <div class="key"><span><i style="background:var(--amp)"></i>Bridge output</span><span><i style="background:var(--cap)"></i>Capacitor voltage</span></div>
+    <div class="work" id="rippleMath"></div>
+  </div>
+  <details class="deriv" open>
+    <summary>Derivation: ripple ΔV = I / (2 × F<sub>grid</sub> × C)</summary>
+    <ol>
+      <li><b>Time between refills:</b> 2 humps per cycle × 50 cycles = 100 a second, so the gap is Δt = 1 / (2 × 50) = 10 ms.</li>
+      <li><b>Charge drained in that gap:</b> current is charge per second, so ΔQ = I × Δt.</li>
+      <li><b>Voltage drop:</b> a capacitor obeys Q = CV, so ΔV = ΔQ / C.</li>
+    </ol>
+    <div class="eq">ΔV = <span class="frac"><span>I × Δt</span><span>C</span></span> = <span class="frac"><span>I</span><span>2 × F<sub>grid</sub> × C</span></span> &nbsp; e.g. <span class="frac"><span>1.5</span><span>2 × 50 × 1000×10⁻⁶</span></span> = <span class="ans">15 V</span></div>
+    <p class="small">In words: dip = drain rate ÷ (refills per second × tank size). Bigger C, smaller ripple.</p>
+  </details>
+  <details class="deriv">
+    <summary>Derivation: the capacitor's top voltage V<sub>C,max</sub> = V<sub>pk</sub> − 2V<sub>F</sub></summary>
+    <ol>
+      <li>The capacitor charges to the top of each hump.</li>
+      <li>The top of the AC is V<sub>pk</sub> = 325.3 V, but the current had to pass through two diodes to get there, each taking V<sub>F</sub>.</li>
+    </ol>
+    <div class="eq">V<sub>C,max</sub> = 325.3 − 2 × 1.0 = <span class="ans">323.3 V</span></div>
+  </details>
+  <details class="deriv" open>
+    <summary>Derivation: bridge heat P<sub>D(FB)</sub> = 1.8 × V<sub>F</sub> × I<sub>D,RMS</sub></summary>
+    <ol>
+      <li><b>Power = voltage × current.</b> A conducting diode has a fixed V<sub>F</sub> across it, so its power is V<sub>F</sub> × i at every instant.</li>
+      <li><b>Average over time:</b> V<sub>F</sub> is constant, so P = V<sub>F</sub> × (average current). Diodes use the <b>average</b> current. Resistors and MOSFETs use I²R with RMS.</li>
+      <li><b>Two diodes are always on</b>, so P = 2 × V<sub>F</sub> × I<sub>avg</sub>.</li>
+      <li><b>Convert to the RMS you're given:</b> I<sub>avg</sub> = 0.9 × I<sub>RMS</sub> (chapter 01).</li>
+    </ol>
+    <div class="eq">P<sub>D(FB)</sub> = 2 × 0.9 × V<sub>F</sub> × I<sub>D,RMS</sub> = <span class="ans">1.8 × V<sub>F</sub> × I<sub>D,RMS</sub></span></div>
+  </details>
+  <div class="panel">
+    <span class="eyebrow">Calculator · the seminar question (groups A–D)</span>
+    <div class="row">
+      <label for="selB">Bridge <select id="selB"></select></label>
+      <label for="selC">Capacitor <select id="selC"></select></label>
+      <label for="inI">I<sub>D,RMS</sub> (A) <input type="number" id="inI" value="1.5" step="0.1" min="0.1"></label>
+    </div>
+    <div class="work" id="rectWork"></div>
+    <p class="small">The SKB 25 datasheet only gives V<sub>F</sub> = 2.2 V at a 150 A surge, so here it uses its threshold model, 0.85 V + 12 mΩ × I ≈ 0.87 V. Check which value Dr Dimitrov wants.</p>
+  </div>
+</section>
+
+<!-- 04 SWITCHES -->
+<section class="ch" id="switches" aria-labelledby="h4">
+  <div class="chhead"><span class="chnum">04 · SESSION 1</span><h2 id="h4">Switches: relay, SSR, BJT, MOSFET, IGBT</h2></div>
+  <p class="idea">To control a motor you need a switch that can turn the power on and off, often thousands of times a second. A <strong>relay</strong> is a mechanical switch. The rest are <strong>transistors</strong>: a small control signal on one leg lets a large current flow through the other two. They differ in <strong>what the control signal is</strong> (a current or a voltage) and in how fast and how high-voltage they can go.</p>
+  <div class="grid2">
+    <div class="panel">
+      <span class="eyebrow">BJT · current-controlled</span>
+      <svg class="dia" viewBox="0 0 300 220" role="img" aria-label="NPN BJT symbol with base, collector and emitter"><g id="bjt"></g></svg>
+      <p>A small <b>base current I<sub>B</sub></b> lets a large <b>collector current I<sub>C</sub></b> flow, roughly I<sub>C</sub> = β × I<sub>B</sub>. The control needs <b>continuous current</b>, which wastes drive power. Each value of I<sub>B</sub> gives its own curve on the I<sub>C</sub>–V<sub>CE</sub> graph. NPN and PNP are biased opposite ways round.</p>
+    </div>
+    <div class="panel">
+      <span class="eyebrow">MOSFET · voltage-controlled</span>
+      <svg class="dia" viewBox="0 0 300 220" role="img" aria-label="N-channel MOSFET symbol with gate, drain and source"><g id="mos"></g></svg>
+      <p>The <b>gate</b> is insulated by a thin layer of glass (SiO₂), so almost no gate current flows. Raise the gate-to-source voltage <b>V<sub>GS</sub></b> above the threshold <b>V<sub>GS(th)</sub></b> and current flows drain → source. Fully on, it behaves like a small resistor, <b>R<sub>DS(on)</sub></b>.</p>
+    </div>
+  </div>
+  <div class="tablewrap panel" style="padding:6px"><table>
+    <thead><tr><th>Switch</th><th>Controlled by</th><th>Good at</th><th>Weak at</th><th>Use it for</th></tr></thead>
+    <tbody>
+      <tr><td><b>Relay</b> (electromechanical)</td><td>Coil current moves a contact</td><td>Cheap, takes surges, true isolation, little heat, several poles</td><td>Slow, wears out, sparks and clicks, hates vibration</td><td>Occasional on/off of mains loads</td></tr>
+      <tr><td><b>SSR</b> (solid-state relay)</td><td>Small input signal</td><td>Long life, fast, silent, no arcing, vibration-proof, tiny control power</td><td>Gets hot, costs more, leaks a little current, sensitive to surges</td><td>Frequent switching, heaters</td></tr>
+      <tr><td><b>BJT</b></td><td>Base <b>current</b></td><td>Simple, cheap</td><td>Needs continuous drive current, slower</td><td>Small signals, older designs</td></tr>
+      <tr><td><b>MOSFET</b></td><td>Gate <b>voltage</b></td><td>Very fast, easy to drive, low loss at low voltage</td><td>R<sub>DS(on)</sub> rises at high voltage ratings</td><td><b>Robots and motor drives below ~700 V</b></td></tr>
+      <tr><td><b>IGBT</b></td><td>Gate <b>voltage</b> (like a MOSFET)</td><td>Handles high voltage and current with BJT-like conduction</td><td>Slower switching</td><td><b>Above ~1000 V</b>: trains, grid, big inverters</td></tr>
+    </tbody>
+  </table></div>
+  <p class="tip"><b>IGBT in one line:</b> a MOSFET's insulated gate driving a BJT's output stage. Same structure as a MOSFET plus an extra P layer underneath. <b>Selection rule from the slides:</b> MOSFET below about 700 V, IGBT above about 1000 V. In between, pick whichever best fits the size, efficiency and amps per pound.</p>
+  <div class="tablewrap panel" style="padding:6px"><table>
+    <thead><tr><th>Reading a MOSFET datasheet</th><th>Section</th><th>IRFP140</th><th>IRFP250</th></tr></thead>
+    <tbody>
+      <tr><td>V<sub>DSS</sub>, max voltage when off</td><td>Absolute maximum</td><td>100 V</td><td>200 V</td></tr>
+      <tr><td>I<sub>D</sub>, max continuous current</td><td>Absolute maximum</td><td>31 A (22 A at 100 °C)</td><td>30 A (21 A at 100 °C)</td></tr>
+      <tr><td>R<sub>DS(on)</sub></td><td>Static</td><td>0.077 Ω</td><td>0.075 Ω</td></tr>
+      <tr><td>t<sub>d(on)</sub> / t<sub>r</sub></td><td>Dynamic</td><td>11 / 44 ns</td><td>14 / 43 ns</td></tr>
+      <tr><td>t<sub>d(off)</sub> / t<sub>f</sub></td><td>Dynamic</td><td>53 / 43 ns</td><td>41 / 33 ns</td></tr>
+      <tr><td>R<sub>thJC</sub> / R<sub>thCS</sub> / R<sub>thJA</sub></td><td>Thermal</td><td>0.83 / 0.24 / 40 °C/W</td><td>0.7 / 0.24 / 40 °C/W</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- 05 PWM -->
+<section class="ch" id="pwm" aria-labelledby="h5">
+  <div class="chhead"><span class="chnum">05 · SESSION 1</span><h2 id="h5">PWM: controlling power by switching fast</h2></div>
+  <p class="idea">A MOSFET is either fully on or fully off. To give a motor <em>half</em> power, switch it on for half of each cycle, thousands of times a second. The motor is too slow to notice the flicker and responds to the <strong>average</strong>. That's <strong>pulse width modulation</strong>.</p>
+  <div class="panel">
+    <div class="row">
+      <label for="dSlider">Duty cycle D <input type="range" id="dSlider" min="0" max="100" value="40"></label><span class="readout" id="dOut"></span>
+      <label for="pwmV">Supply V<sub>DD</sub> (V) <input type="number" id="pwmV" value="24" min="1"></label>
+      <label for="pwmF">Frequency (kHz) <input type="number" id="pwmF" value="10" min="0.1" step="0.1"></label>
+    </div>
+    <canvas id="cvPwm" height="190" aria-label="PWM square wave with average level"></canvas>
+    <div class="key"><span><i style="background:var(--volt)"></i>Voltage the motor sees</span><span><i style="background:var(--amp)"></i>Average = D × V<sub>DD</sub></span></div>
+    <div class="work" id="pwmWork"></div>
+  </div>
+  <div class="eq plain">T = <span class="frac"><span>1</span><span>F</span></span> &nbsp;·&nbsp; T = t<sub>on</sub> + t<sub>off</sub> &nbsp;·&nbsp; D = <span class="frac"><span>t<sub>on</sub></span><span>T</span></span> &nbsp;·&nbsp; V<sub>avg</sub> = D × V<sub>DD</sub></div>
+</section>
+
+<!-- 06 LOSSES -->
+<section class="ch" id="losses" aria-labelledby="h6">
+  <div class="chhead"><span class="chnum">06 · SESSIONS 1–3</span><h2 id="h6">MOSFET power loss</h2></div>
+  <p class="idea">A MOSFET wastes power in two separate ways. While it's <strong>fully on</strong>, current flows through its small resistance R<sub>DS(on)</sub>: that's <strong>conduction loss</strong>. While it's <strong>switching</strong>, for a few nanoseconds there's a big voltage across it <em>and</em> a big current through it at the same time: that's <strong>switching loss</strong>. It happens twice per cycle, so it scales with frequency.</p>
+  <div class="panel">
+    <span class="eyebrow">One switching cycle, slowed right down</span>
+    <canvas id="cvSwitch" height="250" aria-label="Voltage, current and power during turn-on and turn-off"></canvas>
+    <div class="key"><span><i style="background:var(--volt)"></i>Voltage across the MOSFET, V<sub>DS</sub></span><span><i style="background:var(--amp)"></i>Current through it, I<sub>D</sub></span><span><i style="background:var(--bad)"></i>Power lost = V × I</span></div>
+    <p class="small">Off: full voltage, no current, no loss. On: full current but tiny voltage (I × R<sub>DS(on)</sub>), small loss. The red spikes are where both are big together.</p>
+  </div>
+  <details class="deriv" open>
+    <summary>Derivation: conduction loss P<sub>cond</sub> = R<sub>DS(on)</sub> × I<sub>D</sub>²</summary>
+    <ol>
+      <li>Fully on, the MOSFET is just a resistor of value R<sub>DS(on)</sub>.</li>
+      <li>Power in a resistor = I²R (or equivalently V × I with V = I × R<sub>DS(on)</sub>).</li>
+    </ol>
+    <div class="eq">P<sub>cond</sub> = R<sub>DS(on)</sub> × I<sub>D</sub>² &nbsp; e.g. 0.075 × 10² = <span class="ans">7.5 W</span> &nbsp;<span class="c">(V<sub>DS</sub> = 10 × 0.075 = 0.75 V, × 10 A = same 7.5 W)</span></div>
+    <p class="small">Because of the square, double the current gives four times the conduction loss. That's why high-power systems use higher voltages, and why MOSFETs are put in parallel to share current.</p>
+  </details>
+  <details class="deriv" open>
+    <summary>Derivation: switching energy E = (V<sub>DD</sub> × I<sub>D</sub> / 2) × time</summary>
+    <ol>
+      <li>Look at the turn-on in the graph. First the current climbs from 0 to I<sub>D</sub> while the voltage is still at V<sub>DD</sub>. Then the voltage falls to almost 0 while the current stays at I<sub>D</sub>.</li>
+      <li>In each part, power = V × I rises from 0 to V<sub>DD</sub> × I<sub>D</sub> or falls back. It's a <b>triangle</b> on the power graph.</li>
+      <li>Energy = area under the power graph. A triangle's area is ½ × height × width, so across the whole switching time t:</li>
+    </ol>
+    <div class="eq">E = ½ × (V<sub>DD</sub> × I<sub>D</sub>) × t</div>
+    <ol start="4">
+      <li>The datasheet gives the turn-on time in two parts, delay + rise; turn-off is delay + fall:</li>
+    </ol>
+    <div class="eq">E<sub>ON</sub> = <span class="frac"><span>V<sub>DD</sub> × I<sub>D</sub></span><span>2</span></span> × (t<sub>d(on)</sub> + t<sub>r</sub>) &nbsp;&nbsp; E<sub>OFF</sub> = <span class="frac"><span>V<sub>DD</sub> × I<sub>D</sub></span><span>2</span></span> × (t<sub>d(off)</sub> + t<sub>f</sub>)</div>
+    <ol start="5">
+      <li>This happens once on and once off every cycle, F<sub>SW</sub> times a second. Energy per second is power:</li>
+    </ol>
+    <div class="eq">P<sub>SW</sub> = (E<sub>ON</sub> + E<sub>OFF</sub>) × F<sub>SW</sub> &nbsp;&nbsp; P<sub>MOSFET</sub> = P<sub>cond</sub> + P<sub>SW</sub></div>
+    <p class="small">The full formula on the slide also has a Q<sub>rr</sub> × V<sub>DD</sub> term for the diode's recovery charge. It's ignored in these problems.</p>
+  </details>
+  <div class="panel">
+    <span class="eyebrow">Calculator · pick a worked example or enter your own</span>
+    <div class="row" role="group" aria-label="Worked examples" id="lossPresets"></div>
+    <div class="row">
+      <label for="lDev">MOSFET <select id="lDev"></select></label>
+      <label for="lV">V<sub>DD</sub> (V) <input type="number" id="lV" value="24" min="0"></label>
+      <label for="lI">I<sub>D</sub> (A) <input type="number" id="lI" value="10" min="0" step="0.1"></label>
+      <label for="lF">F<sub>SW</sub> (kHz) <input type="number" id="lF" value="13" min="0" step="0.1"></label>
+    </div>
+    <div class="work" id="lossWork"></div>
+    <div class="bar" id="lossBar" aria-label="Split of conduction and switching loss"></div>
+    <div class="key"><span><i style="background:var(--volt)"></i>Conduction</span><span><i style="background:var(--bad)"></i>Switching</span></div>
+    <p class="warn small" id="lossWarn"></p>
+  </div>
+  <div class="tablewrap panel" style="padding:6px"><table>
+    <thead><tr><th>Common slip</th><th>Fix</th></tr></thead>
+    <tbody>
+      <tr><td>Squaring the wrong number in P<sub>cond</sub></td><td>Square the <b>current</b> only: 10 A → 100, not 100 → 10 000</td></tr>
+      <tr><td>Forgetting nanoseconds</td><td>ns = × 10⁻⁹. Miss it and the answer is a billion times too big</td></tr>
+      <tr><td>Adding the wrong times</td><td>On = t<sub>d(on)</sub> + t<sub>r</sub>. Off = t<sub>d(off)</sub> + t<sub>f</sub></td></tr>
+      <tr><td>kHz</td><td>13 kHz = 13 000 Hz</td></tr>
+      <tr><td>Mixing numbers between questions</td><td>Sanity check: the loss can never be more than V<sub>DD</sub> × I<sub>D</sub></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- 07 THERMAL -->
+<section class="ch" id="thermal" aria-labelledby="h7">
+  <div class="chhead"><span class="chnum">07 · SESSIONS 2–3</span><h2 id="h7">Heat, thermal resistance and heatsinks</h2></div>
+  <p class="idea">Every watt of loss becomes heat inside the silicon <strong>junction</strong>. It has to flow out through the <strong>case</strong>, into a <strong>heatsink</strong>, then into the <strong>air</strong>. Each step resists the flow. Treat it exactly like Ohm's law: <strong>heat flow is current, temperature is voltage, thermal resistance is resistance</strong>.</p>
+  <div class="panel">
+    <div class="svgwrap"><svg class="dia wide" viewBox="0 0 640 230" role="img" aria-label="Thermal ladder from junction through case and heatsink to ambient"><g id="ladder"></g></svg></div>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Electrical</th><th>Thermal</th></tr></thead>
+      <tbody>
+        <tr><td>Current I (A)</td><td>Heat flow P (W)</td></tr>
+        <tr><td>Voltage difference V (V)</td><td>Temperature difference ΔT (°C)</td></tr>
+        <tr><td>Resistance R (Ω)</td><td>Thermal resistance R<sub>th</sub> (°C/W)</td></tr>
+        <tr><td>V = I × R</td><td><b>ΔT = P × R<sub>th</sub></b></td></tr>
+        <tr><td>Resistors in series add</td><td>R<sub>th1</sub> + R<sub>th2</sub> + R<sub>th3</sub></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  <details class="deriv" open>
+    <summary>Derivation: junction temperature, working outwards from the air</summary>
+    <ol>
+      <li>The same heat P flows through every step, like current through series resistors.</li>
+      <li>Each step adds ΔT = P × R<sub>th</sub>. Start from the air, which you know, and climb:</li>
+    </ol>
+    <div class="eq plain">T<sub>hs</sub> = T<sub>amb</sub> + P × R<sub>th3</sub> → T<sub>C</sub> = T<sub>hs</sub> + P × R<sub>th2</sub> → T<sub>J</sub> = T<sub>C</sub> + P × R<sub>th1</sub></div>
+    <div class="eq">T<sub>J</sub> = T<sub>amb</sub> + P × (R<sub>th1</sub> + R<sub>th2</sub> + R<sub>th3</sub>)</div>
+    <ol start="3">
+      <li><b>Limits:</b> the absolute max T<sub>J</sub> is 175 °C. Design for 100–120 °C and <b>never above 120 °C</b>.</li>
+      <li><b>Safety margin</b> compares T<sub>J</sub> with 175 °C. The target is at least 30%:</li>
+    </ol>
+    <div class="eq">margin = 100 − <span class="frac"><span>T<sub>J</sub></span><span>175</span></span> × 100 &nbsp; e.g. T<sub>J</sub> = 120 °C → <span class="ans">31.4%</span></div>
+  </details>
+  <details class="deriv" open>
+    <summary>Derivation: sizing a heatsink, R<sub>th3</sub></summary>
+    <ol>
+      <li>Rearrange the line above for the one resistance you get to choose:</li>
+    </ol>
+    <div class="eq">R<sub>th3</sub> = <span class="frac"><span>T<sub>J</sub> − T<sub>amb</sub></span><span>P</span></span> − (R<sub>th1</sub> + R<sub>th2</sub>)</div>
+    <ol start="2">
+      <li>Pick your target T<sub>J</sub> (100 or 120 °C), put in P and the two datasheet values, and you get the <b>largest</b> R<sub>th3</sub> allowed. Choose a heatsink at or below it. <b>A lower °C/W means a bigger heatsink.</b></li>
+      <li><b>If the answer is negative:</b> even a perfect heatsink (R<sub>th3</sub> = 0) can't keep it cool, because R<sub>th1</sub> + R<sub>th2</sub> alone already make it too hot. Fixes: a better thermal interface (grease, 0.24, instead of an insulating pad), less loss (lower F<sub>SW</sub>, a lower-R<sub>DS(on)</sub> part, MOSFETs in parallel), lower ambient, or forced air or liquid cooling.</li>
+    </ol>
+  </details>
+  <div class="panel">
+    <span class="eyebrow">Calculator · temperatures along the path</span>
+    <div class="row" role="group" aria-label="Thermal examples" id="thPresets"></div>
+    <div class="row">
+      <label for="tP">P (W) <input type="number" id="tP" value="10" step="0.1" min="0"></label>
+      <label for="tA">T<sub>amb</sub> (°C) <input type="number" id="tA" value="60" step="1"></label>
+      <label for="t1">R<sub>th1</sub> <input type="number" id="t1" value="0.5" step="0.01" min="0"></label>
+      <label for="t2">R<sub>th2</sub> <input type="number" id="t2" value="1" step="0.01" min="0"></label>
+      <label for="t3">R<sub>th3</sub> <input type="number" id="t3" value="2" step="0.01" min="0"></label>
+    </div>
+    <div class="row">
+      <label for="tNo"><input type="checkbox" id="tNo"> No heatsink: use R<sub>thJA</sub></label>
+      <label for="tJA">R<sub>thJA</sub> <input type="number" id="tJA" value="40" step="1" min="0"></label>
+      <label for="tTarget">Size a heatsink for T<sub>J</sub> = <select id="tTarget"><option value="100">100 °C</option><option value="120">120 °C</option></select></label>
+    </div>
+    <div class="svgwrap"><svg class="dia wide" id="thermo" viewBox="0 0 640 170" role="img" aria-label="Temperature at each point along the heat path"></svg></div>
+    <div class="work" id="thWork"></div>
+  </div>
+</section>
+
+<!-- 08 DC/DC -->
+<section class="ch" id="dcdc" aria-labelledby="h8">
+  <div class="chhead"><span class="chnum">08 · SESSION 4</span><h2 id="h8">DC/DC converters: buck, boost, buck-boost</h2></div>
+  <p class="idea">A battery gives one voltage, but a robot needs several (motors, logic, sensors). A <strong>DC/DC converter</strong> chops the input with a MOSFET (PWM), then smooths it with an <strong>inductor</strong> (stores energy in current) and a <strong>capacitor</strong> (stores energy in voltage). The duty cycle D sets the output.</p>
+  <div class="grid2">
+    <div class="panel">
+      <span class="eyebrow">Buck · steps down · V<sub>out</sub> = D × V<sub>in</sub></span>
+      <svg class="dia" viewBox="0 0 320 190" role="img" aria-label="Buck converter with on and off current paths"><g id="buck"></g></svg>
+      <div class="key"><span><i style="background:var(--amp)"></i>Switch on: battery charges L and feeds load</span><span><i style="background:var(--cap)"></i>Switch off: L keeps current going through the diode (freewheeling)</span></div>
+    </div>
+    <div class="panel">
+      <span class="eyebrow">Boost · steps up · V<sub>out</sub> = V<sub>in</sub> / (1 − D)</span>
+      <svg class="dia" viewBox="0 0 320 190" role="img" aria-label="Boost converter with on and off current paths"><g id="boost"></g></svg>
+      <div class="key"><span><i style="background:var(--amp)"></i>Switch on: L charges straight from the battery</span><span><i style="background:var(--cap)"></i>Switch off: battery + L push together into the output</span></div>
+    </div>
+  </div>
+  <details class="deriv" open>
+    <summary>Derivation: why buck gives D × V<sub>in</sub> and boost gives V<sub>in</sub> / (1 − D)</summary>
+    <ol>
+      <li><b>The key fact:</b> in steady state, the inductor's average voltage over a cycle must be zero. If it weren't, its current would keep growing forever. So (voltage × time while on) + (voltage × time while off) = 0. This is called <b>volt-second balance</b>.</li>
+      <li><b>Buck, switch on</b> for D × T: the inductor sits between V<sub>in</sub> and V<sub>out</sub>, so V<sub>L</sub> = V<sub>in</sub> − V<sub>out</sub>.<br><b>Buck, switch off</b> for (1 − D) × T: the diode connects it to ground, so V<sub>L</sub> = −V<sub>out</sub>.</li>
+    </ol>
+    <div class="eq plain">(V<sub>in</sub> − V<sub>out</sub>) × D = V<sub>out</sub> × (1 − D) &nbsp;⇒&nbsp; <span class="ans">V<sub>out</sub> = D × V<sub>in</sub></span></div>
+    <ol start="3">
+      <li><b>Boost, switch on:</b> the inductor is straight across the battery, V<sub>L</sub> = V<sub>in</sub>.<br><b>Boost, switch off:</b> it sits between V<sub>in</sub> and V<sub>out</sub>, V<sub>L</sub> = V<sub>in</sub> − V<sub>out</sub> (negative).</li>
+    </ol>
+    <div class="eq plain">V<sub>in</sub> × D + (V<sub>in</sub> − V<sub>out</sub>) × (1 − D) = 0 &nbsp;⇒&nbsp; <span class="ans">V<sub>out</sub> = <span class="frac"><span>V<sub>in</sub></span><span>1 − D</span></span></span></div>
+  </details>
+  <details class="deriv" open>
+    <summary>Derivation: sizing the buck's inductor and capacitor</summary>
+    <ol>
+      <li><b>Inductor:</b> V = L × (change in current ÷ time). While off, V<sub>L</sub> = V<sub>out</sub> for a time (1 − D)/F<sub>SW</sub>, and the current changes by ΔI<sub>L</sub>. Rearrange for L:</li>
+    </ol>
+    <div class="eq">L = <span class="frac"><span>V<sub>out</sub> × (1 − D)</span><span>F<sub>SW</sub> × ΔI<sub>L</sub></span></span></div>
+    <ol start="2">
+      <li><b>Capacitor:</b> it absorbs the inductor's triangle-shaped ripple current. The charge in one half of that triangle sets the voltage ripple:</li>
+    </ol>
+    <div class="eq">C<sub>out</sub> ≥ <span class="frac"><span>ΔI<sub>L</sub></span><span>8 × F<sub>SW</sub> × ΔV<sub>out</sub></span></span></div>
+    <p class="warn small"><b>Slide check:</b> for 24 V → 12 V at 10 A, 25 kHz, D = 0.5 and 10% ripple, the slide puts 24 V in the L formula and gets 480 µH. The formula says V<sub>out</sub> = 12 V, which gives <b>240 µH</b>. The calculator shows both. Ask which he wants.</p>
+  </details>
+  <div class="panel">
+    <span class="eyebrow">Calculator · converter output, then buck L and C</span>
+    <div class="row">
+      <label for="cType">Type <select id="cType"><option value="buck">Buck</option><option value="boost">Boost</option></select></label>
+      <label for="cVin">V<sub>in</sub> (V) <input type="number" id="cVin" value="24" min="0"></label>
+      <label for="cD">D <input type="range" id="cD" min="5" max="90" value="50"></label><span class="readout" id="cDOut"></span>
+    </div>
+    <div class="work" id="convOut"></div>
+    <div class="row" role="group" aria-label="Buck sizing examples">
+      <span class="eyebrow">Buck sizing</span>
+      <button id="bEx1">Slide example 1 · 25 kHz</button><button id="bEx2">Example 2 · 150 kHz</button>
+    </div>
+    <div class="row">
+      <label for="bVin">V<sub>in</sub> <input type="number" id="bVin" value="24"></label>
+      <label for="bVout">V<sub>out</sub> <input type="number" id="bVout" value="12"></label>
+      <label for="bI">I<sub>out</sub> (A) <input type="number" id="bI" value="10"></label>
+      <label for="bF">F<sub>SW</sub> (kHz) <input type="number" id="bF" value="25"></label>
+      <label for="bR">ripple % <input type="number" id="bR" value="10"></label>
+    </div>
+    <div class="work" id="buckWork"></div>
+  </div>
+  <div class="tablewrap panel" style="padding:6px"><table>
+    <thead><tr><th></th><th>Transformer-less (buck, boost)</th><th>Transformer-based (isolated)</th></tr></thead>
+    <tbody>
+      <tr><td>How</td><td>Switch, inductor, capacitor</td><td>DC → high-frequency AC → transformer → rectify back to DC</td></tr>
+      <tr><td>Galvanic isolation</td><td>No: faults pass straight to the load</td><td>Yes: protects the user and load</td></tr>
+      <tr><td>Efficiency</td><td>90–98%</td><td>80–95%</td></tr>
+      <tr><td>Cost, size</td><td>Low, small, light</td><td>Higher, bulkier</td></tr>
+      <tr><td>Voltage ratio</td><td>Low to moderate</td><td>Extreme step-up or step-down</td></tr>
+      <tr><td>Outputs</td><td>One</td><td>One or several</td></tr>
+    </tbody>
+  </table></div>
+  <p class="tip"><b>Buck-boost</b> goes either way, which is useful when a battery sags below the output voltage as it drains. The 4-switch version is common. Synchronous designs replace the diode with a second MOSFET for less loss. To design one you need V<sub>in,min</sub>, V<sub>in,max</sub>, V<sub>out</sub>, I<sub>out,max</sub> and the controller IC.</p>
+</section>
+
+<!-- 09 DRIVES -->
+<section class="ch" id="drives" aria-labelledby="h9">
+  <div class="chhead"><span class="chnum">09 · SESSION 4</span><h2 id="h9">Motor drives: brushed, brushless, stepper</h2></div>
+  <p class="idea">The last link: switches arranged so the motor gets the right voltage, polarity and timing. <strong>PWM sets the speed</strong>. <strong>The arrangement of switches sets the direction</strong> (and for brushless motors, which coil is energised).</p>
+  <div class="panel">
+    <span class="eyebrow">H-bridge · brushed DC motor, both directions</span>
+    <div class="row" role="group" aria-label="H-bridge states">
+      <button data-h="fwd" aria-pressed="true">Forward</button><button data-h="rev">Reverse</button><button data-h="brake">Brake</button><button data-h="short">S1 + S3 (don't!)</button>
+    </div>
+    <div class="svgwrap"><svg class="dia wide" id="hbridge" viewBox="0 0 480 300" role="img" aria-label="H-bridge with four switches and a motor"></svg></div>
+    <p id="hNote"></p>
+  </div>
+  <div class="tablewrap panel" style="padding:6px"><table>
+    <thead><tr><th>Brushed DC drive</th><th>What it does</th></tr></thead>
+    <tbody>
+      <tr><td>Single switch (class A chopper)</td><td>One MOSFET with PWM. Speed control, one direction only</td></tr>
+      <tr><td>H-bridge (full bridge)</td><td>Four switches. Diagonal pairs reverse the polarity, so both directions</td></tr>
+      <tr><td>Current limiting</td><td>The driver must carry the continuous armature current, and should limit it so a stalled motor doesn't overheat</td></tr>
+    </tbody>
+  </table></div>
+  <div class="panel">
+    <span class="eyebrow">Brushless (BLDC, PMSM) · three-phase inverter</span>
+    <div class="svgwrap"><svg class="dia wide" viewBox="0 0 560 230" role="img" aria-label="Three-phase inverter with six switches feeding a three-phase motor"><g id="inv"></g></svg></div>
+    <p>Three half-bridges, one per motor phase (U, V, W). Switching them in sequence makes a rotating magnetic field that drags the magnet rotor round. No brushes, so less wear and higher efficiency. These are the slide's formulas:</p>
+    <div class="eq plain">P<sub>in,motor</sub> = √3 × V<sub>L</sub> × I<sub>phase,RMS</sub> × cos φ &nbsp;·&nbsp; V<sub>L</sub> = <span class="frac"><span>V<sub>DC</sub></span><span>√2</span></span></div>
+    <div class="eq plain">I<sub>phase,RMS</sub> = <span class="frac"><span>P<sub>out</sub></span><span>√3 × V<sub>L</sub> × cos φ × η</span></span> &nbsp;·&nbsp; I<sub>D,RMS</sub> = <span class="frac"><span>I<sub>phase,RMS</sub></span><span>√2</span></span></div>
+    <p class="small">The last one has a √2 because each transistor only carries its phase's current half the time. RMS goes as the square root of the on-time, and √½ = 1/√2. That I<sub>D,RMS</sub> is what you'd put into the MOSFET loss calculation in chapter 06.</p>
+    <div class="row">
+      <label for="iVdc">V<sub>DC</sub> (V) <input type="number" id="iVdc" value="48"></label>
+      <label for="iP">P<sub>out</sub> (W) <input type="number" id="iP" value="500"></label>
+      <label for="iPf">cos φ <input type="number" id="iPf" value="0.95" step="0.01"></label>
+      <label for="iEta">η <input type="number" id="iEta" value="0.92" step="0.01"></label>
+    </div>
+    <div class="work" id="invWork"></div>
+  </div>
+  <div class="tablewrap panel" style="padding:6px"><table>
+    <thead><tr><th>Stepper motor</th><th>Coils</th><th>Driver needs</th></tr></thead>
+    <tbody>
+      <tr><td><b>Bipolar</b></td><td>Two separate coils</td><td>Two H-bridges (4 half-bridges), to reverse current in each coil</td></tr>
+      <tr><td><b>Unipolar</b></td><td>Centre-tapped coils</td><td>Simple low-side switches that pull each half-coil to ground in turn</td></tr>
+      <tr><td>Both</td><td></td><td><b>PWM chopping:</b> measure the coil current and switch off the instant it hits the rated limit</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- 10 SHEET -->
+<section class="ch" id="sheet" aria-labelledby="h10">
+  <div class="chhead"><span class="chnum">10 · REVISION</span><h2 id="h10">Formula sheet and checklist</h2></div>
+  <div class="tablewrap panel" style="padding:6px"><table>
+    <thead><tr><th>Want</th><th>Formula</th><th>Chapter</th></tr></thead>
+    <tbody>
+      <tr><td>Peak from RMS</td><td>V<sub>pk</sub> = √2 × V<sub>RMS</sub></td><td>01</td></tr>
+      <tr><td>Average from peak / RMS</td><td>V<sub>avg</sub> = 0.637 V<sub>pk</sub> = 0.9 V<sub>RMS</sub></td><td>01</td></tr>
+      <tr><td>Bridge heat</td><td>P<sub>D(FB)</sub> = 1.8 × V<sub>F</sub> × I<sub>D,RMS</sub></td><td>03</td></tr>
+      <tr><td>Capacitor top voltage</td><td>V<sub>C,max</sub> = V<sub>pk</sub> − 2V<sub>F</sub></td><td>03</td></tr>
+      <tr><td>Ripple</td><td>ΔV = I / (2 × F<sub>grid</sub> × C)</td><td>03</td></tr>
+      <tr><td>PWM average</td><td>V<sub>avg</sub> = D × V<sub>DD</sub>, D = t<sub>on</sub>/T</td><td>05</td></tr>
+      <tr><td>Conduction loss</td><td>P<sub>cond</sub> = R<sub>DS(on)</sub> × I<sub>D</sub>²</td><td>06</td></tr>
+      <tr><td>Switching energies</td><td>E<sub>ON</sub> = (V<sub>DD</sub>I<sub>D</sub>/2)(t<sub>d(on)</sub> + t<sub>r</sub>) · E<sub>OFF</sub> = (V<sub>DD</sub>I<sub>D</sub>/2)(t<sub>d(off)</sub> + t<sub>f</sub>)</td><td>06</td></tr>
+      <tr><td>Switching loss, total</td><td>P<sub>SW</sub> = (E<sub>ON</sub> + E<sub>OFF</sub>) × F<sub>SW</sub> · P<sub>MOSFET</sub> = P<sub>cond</sub> + P<sub>SW</sub></td><td>06</td></tr>
+      <tr><td>Junction temperature</td><td>T<sub>J</sub> = T<sub>amb</sub> + P(R<sub>th1</sub> + R<sub>th2</sub> + R<sub>th3</sub>)</td><td>07</td></tr>
+      <tr><td>Heatsink needed</td><td>R<sub>th3</sub> = (T<sub>J</sub> − T<sub>amb</sub>)/P − (R<sub>th1</sub> + R<sub>th2</sub>)</td><td>07</td></tr>
+      <tr><td>Safety margin</td><td>100 − (T<sub>J</sub>/175) × 100, aim ≥ 30%</td><td>07</td></tr>
+      <tr><td>Buck / boost</td><td>V<sub>out</sub> = D V<sub>in</sub> · V<sub>out</sub> = V<sub>in</sub>/(1 − D)</td><td>08</td></tr>
+      <tr><td>Buck L and C</td><td>L = V<sub>out</sub>(1 − D)/(F<sub>SW</sub> ΔI<sub>L</sub>) · C ≥ ΔI<sub>L</sub>/(8 F<sub>SW</sub> ΔV)</td><td>08</td></tr>
+      <tr><td>3-phase drive</td><td>I<sub>phase</sub> = P<sub>out</sub>/(√3 V<sub>L</sub> cos φ η) · I<sub>D,RMS</sub> = I<sub>phase</sub>/√2</td><td>09</td></tr>
+    </tbody>
+  </table></div>
+  <div class="panel">
+    <span class="eyebrow">Can I…</span>
+    <ul>
+      <li>convert between peak, RMS and average, and explain why the bridge must survive 325 V?</li>
+      <li>trace the current through a bridge on each half-cycle and say which diodes are on?</li>
+      <li>work out a bridge's heat, V<sub>C,max</sub> and ripple, and check its ratings from the datasheet?</li>
+      <li>say what controls a BJT, a MOSFET and an IGBT, and when to pick each? Relay vs SSR?</li>
+      <li>use the duty cycle to find a PWM average voltage?</li>
+      <li>read R<sub>DS(on)</sub> and the four switching times from a datasheet and calculate P<sub>MOSFET</sub>?</li>
+      <li>explain why low frequency means conduction loss dominates and high frequency means switching loss catches up?</li>
+      <li>find T<sub>J</sub> and the safety margin, size a heatsink, and explain a negative R<sub>th3</sub>?</li>
+      <li>derive and use the buck and boost equations, and size L and C?</li>
+      <li>pick a drive for brushed (H-bridge), brushless (3-phase inverter) and stepper motors?</li>
+    </ul>
+  </div>
+</section>
+
+<footer>Built from the WM1AD Week 3 slides (Sessions 1–4) and the Moodle datasheets. The worked answers to the "to be calculated" questions are my working, so check them against your own.</footer>
+</main>
+
+<script>
+(function(){
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const VPK=Math.SQRT2*230;
+const $=id=>document.getElementById(id);
+const fmt=(v,d=2)=>{if(!isFinite(v))return '—';return Math.abs(v)>=1e4||(Math.abs(v)<1e-3&&v!==0)?v.toExponential(d):(+v.toFixed(d)).toString();};
+function prep(cv){if(!cv.dataset.h)cv.dataset.h=cv.getAttribute('height');const r=cv.getBoundingClientRect(),d=devicePixelRatio||1,h=+cv.dataset.h;cv.width=Math.max(1,r.width*d);cv.height=h*d;cv.style.height=h+'px';const x=cv.getContext('2d');x.setTransform(d,0,0,d,0,0);return{x,w:r.width,h};}
+function txt(x,s,px,py,col,align,size){x.fillStyle=col;x.font=`600 ${size||12}px "JetBrains Mono",monospace`;x.textAlign=align||'left';x.fillText(s,px,py);}
+const NS='http://www.w3.org/2000/svg';
+function el(parent,tag,attrs){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);parent.appendChild(e);return e;}
+function T(parent,s,x,y,o){const t=el(parent,'text',Object.assign({x,y,'font-size':13,'font-weight':600,fill:'var(--ink)'},o||{}));t.textContent=s;return t;}
+function W(parent,pts,o){return el(parent,'polyline',Object.assign({points:pts.map(p=>p.join(',')).join(' '),fill:'none',stroke:'var(--ink)','stroke-width':2.5,'stroke-linecap':'round','stroke-linejoin':'round'},o||{}));}
+// generic diode symbol between two points, arrow in direction a->b
+function diodeSym(g,x1,y1,x2,y2,col,fill){const dx=x2-x1,dy=y2-y1,L=Math.hypot(dx,dy),ux=dx/L,uy=dy/L,nx=-uy,ny=ux,mx=(x1+x2)/2,my=(y1+y2)/2,s=11;
+  W(g,[[x1,y1],[mx-ux*s,my-uy*s]],{stroke:col});W(g,[[mx+ux*s,my+uy*s],[x2,y2]],{stroke:col});
+  el(g,'polygon',{points:[[mx-ux*s+nx*s,my-uy*s+ny*s],[mx-ux*s-nx*s,my-uy*s-ny*s],[mx+ux*s,my+uy*s]].map(p=>p.join(',')).join(' '),fill:fill||col,stroke:col,'stroke-width':2});
+  el(g,'line',{x1:mx+ux*s+nx*s,y1:my+uy*s+ny*s,x2:mx+ux*s-nx*s,y2:my+uy*s-ny*s,stroke:col,'stroke-width':3});}
+function sw(g,x,y,on,col,lab,vertical){ // simple switch symbol, vertical from (x,y) to (x,y+50)
+  if(vertical!==false){W(g,[[x,y],[x,y+14]],{stroke:col});W(g,[[x,y+36],[x,y+50]],{stroke:col});
+    el(g,'circle',{cx:x,cy:y+14,r:3,fill:col});el(g,'circle',{cx:x,cy:y+36,r:3,fill:col});
+    W(g,on?[[x,y+14],[x,y+36]]:[[x,y+36],[x+14,y+17]],{stroke:col});
+    if(lab)T(g,lab,x-10,y+30,{'text-anchor':'end',fill:col});}
+}
+
+/* ---------- static diagrams ---------- */
+function drawStatic(){
+  const ink='var(--ink)',amp='var(--amp)',mut='var(--muted)',cap='var(--cap)',volt='var(--volt)',line='var(--line)';
+  // chain
+  const ch=$('chain');ch.innerHTML='';
+  const boxes=[['Grid','230 V AC','01'],['Rectifier','AC → DC','02–03'],['Switch','MOSFET + PWM','04–07'],['Converter','DC → DC','08'],['Motor drive','H-bridge, 3-phase','09'],['Motor','',' ']];
+  boxes.forEach((b,i)=>{const x=8+i*126;el(ch,'rect',{x,y:22,width:106,height:62,rx:8,fill:i===5?'var(--soft)':'var(--panel)',stroke:i===0||i===5?line:amp,'stroke-width':2});
+    T(ch,b[0],x+53,46,{'text-anchor':'middle','font-size':13});T(ch,b[1],x+53,64,{'text-anchor':'middle','font-size':10,'font-weight':400,fill:mut});
+    T(ch,b[2],x+53,104,{'text-anchor':'middle','font-size':10,fill:amp});
+    if(i<5){W(ch,[[x+108,53],[x+124,53]],{stroke:amp});el(ch,'path',{d:`M${x+118} 48 l6 5 l-6 5`,fill:'none',stroke:amp,'stroke-width':2.5});}});
+  T(ch,'heat lost at every arrow → chapters 03, 06, 07',380,14,{'text-anchor':'middle','font-size':10,'font-weight':400,fill:mut});
+  // forward / reverse diode
+  for(const [id,fw] of [['dfwd',true],['drev',false]]){const g=$(id);g.innerHTML='';const col=fw?amp:line;
+    diodeSym(g,40,45,260,45,fw?amp:ink,fw?amp:'none');
+    T(g,'anode',40,30,{'font-size':11,fill:mut});T(g,'cathode',260,30,{'font-size':11,fill:mut,'text-anchor':'end'});
+    T(g,fw?'+':'−',28,50,{'font-size':16,'text-anchor':'end'});T(g,fw?'−':'+',272,50,{'font-size':16});
+    if(fw){el(g,'path',{d:'M110 70 h80 m-8 -6 l8 6 l-8 6',fill:'none',stroke:amp,'stroke-width':2.5});T(g,'I flows, loses V_F',150,86,{'text-anchor':'middle','font-size':11,fill:amp});}
+    else{T(g,'✕ no current',150,80,{'text-anchor':'middle','font-size':12,fill:mut});}}
+  // BJT
+  const b=$('bjt');b.innerHTML='';
+  W(b,[[40,110],[120,110]],{stroke:cap});T(b,'B (base)',40,100,{'font-size':12,fill:cap});
+  W(b,[[120,70],[120,150]],{'stroke-width':4});
+  W(b,[[120,95],[170,60],[170,20]]);T(b,'C (collector)',178,30,{'font-size':12});
+  W(b,[[120,125],[170,160],[170,200]]);T(b,'E (emitter)',178,196,{'font-size':12});
+  el(b,'path',{d:'M158 151 l12 9 l-14 2 z',fill:ink});
+  el(b,'path',{d:'M60 122 h40 m-7 -5 l7 5 l-7 5',fill:'none',stroke:cap,'stroke-width':2});T(b,'small I_B',60,140,{'font-size':11,fill:cap});
+  el(b,'path',{d:'M230 40 v120 m-6 -9 l6 10 l6 -10',fill:'none',stroke:amp,'stroke-width':3});T(b,'big I_C',240,105,{'font-size':12,fill:amp});
+  // MOSFET
+  const m=$('mos');m.innerHTML='';
+  W(m,[[40,110],[100,110]],{stroke:cap});W(m,[[100,70],[100,150]],{stroke:cap,'stroke-width':3});T(m,'G (gate)',40,100,{'font-size':12,fill:cap});
+  for(const y of [75,110,145])W(m,[[115,y-12],[115,y+12]],{'stroke-width':4});
+  W(m,[[115,75],[170,75],[170,20]]);T(m,'D (drain)',178,30,{'font-size':12});
+  W(m,[[115,145],[170,145],[170,200]]);T(m,'S (source)',178,196,{'font-size':12});
+  W(m,[[115,110],[170,110],[170,145]]);el(m,'path',{d:'M128 104 l-12 6 l12 6 z',fill:ink});
+  T(m,'insulated gap',62,170,{'font-size':10,fill:mut,'font-weight':400});W(m,[[100,160],[108,152]],{stroke:mut,'stroke-width':1});
+  el(m,'path',{d:'M230 40 v120 m-6 -9 l6 10 l6 -10',fill:'none',stroke:amp,'stroke-width':3});T(m,'I_D',240,105,{'font-size':12,fill:amp});
+  T(m,'V_GS > V_GS(th) → on',40,215,{'font-size':11,fill:cap});
+  // thermal ladder
+  const ld=$('ladder');ld.innerHTML='';
+  const nodes=[['Junction','T_J',40],['Case','T_C',205],['Heatsink','T_hs',370],['Air','T_amb',535]];
+  el(ld,'rect',{x:20,y:60,width:60,height:60,rx:6,fill:'var(--amp)',opacity:.85});T(ld,'P (W)',50,95,{'text-anchor':'middle',fill:'var(--panel)','font-size':12});
+  T(ld,'heat source',50,140,{'text-anchor':'middle','font-size':10,fill:mut,'font-weight':400});
+  const rs=[['R_th1','junction→case','datasheet'],['R_th2','case→heatsink','datasheet / pad'],['R_th3','heatsink→air','you choose']];
+  nodes.forEach((n,i)=>{const x=n[2]+60;el(ld,'circle',{cx:x,cy:90,r:6,fill:ink});T(ld,n[0],x,58,{'text-anchor':'middle','font-size':12});T(ld,n[1],x,74,{'text-anchor':'middle','font-size':11,fill:volt});
+    if(i<3){const x2=nodes[i+1][2]+60;W(ld,[[x+6,90],[x+40,90]]);
+      el(ld,'path',{d:`M${x+40} 90 l6 -10 l10 20 l10 -20 l10 20 l10 -20 l10 20 l10 -20 l10 20 l6 -10`,fill:'none',stroke:amp,'stroke-width':2.5});
+      W(ld,[[x+122,90],[x2-6,90]]);
+      T(ld,rs[i][0],(x+x2)/2,130,{'text-anchor':'middle',fill:amp,'font-size':12});T(ld,rs[i][1],(x+x2)/2,146,{'text-anchor':'middle','font-size':10,fill:mut,'font-weight':400});T(ld,rs[i][2],(x+x2)/2,160,{'text-anchor':'middle','font-size':10,fill:mut,'font-weight':400});}});
+  W(ld,[[80,90],[94,90]]);
+  el(ld,'path',{d:'M110 195 h470 m-9 -6 l9 6 l-9 6',fill:'none',stroke:amp,'stroke-width':2});T(ld,'heat flows this way: hottest at the junction, coolest at the air',345,220,{'text-anchor':'middle','font-size':11,fill:amp,'font-weight':400});
+  // buck
+  const bk=$('buck');bk.innerHTML='';
+  // battery
+  const batt=(g,x,y)=>{W(g,[[x-12,y],[x+12,y]],{'stroke-width':3});W(g,[[x-7,y+8],[x+7,y+8]],{'stroke-width':3});T(g,'V_in',x+16,y+8,{'font-size':11});};
+  W(bk,[[30,40],[30,85]],{stroke:amp});batt(bk,30,85);W(bk,[[30,93],[30,160]],{stroke:cap});
+  W(bk,[[30,40],[70,40]],{stroke:amp});
+  W(bk,[[70,40],[78,40]],{stroke:amp});W(bk,[[78,40],[100,28]],{stroke:amp});W(bk,[[102,40],[125,40]],{stroke:amp});T(bk,'Q (MOSFET)',90,18,{'text-anchor':'middle','font-size':10});
+  W(bk,[[125,40],[150,40]],{stroke:'var(--ink)'});
+  el(bk,'path',{d:'M150 40 q8 -14 16 0 q8 -14 16 0 q8 -14 16 0 q8 -14 16 0',fill:'none',stroke:'var(--ink)','stroke-width':2.5});T(bk,'L',182,22,{'text-anchor':'middle','font-size':12});
+  W(bk,[[214,40],[300,40]],{stroke:'var(--ink)'});
+  diodeSym(bk,135,160,135,40,cap,cap);T(bk,'D',148,104,{'font-size':12,fill:cap});
+  W(bk,[[245,40],[245,92]]);W(bk,[[233,92],[257,92]],{'stroke-width':3});W(bk,[[233,100],[257,100]],{'stroke-width':3});W(bk,[[245,100],[245,160]]);T(bk,'C',262,100,{'font-size':12});
+  el(bk,'rect',{x:288,y:72,width:24,height:56,rx:3,fill:'none',stroke:ink,'stroke-width':2.5});W(bk,[[300,40],[300,72]]);W(bk,[[300,128],[300,160]]);T(bk,'load',300,180,{'text-anchor':'middle','font-size':10,fill:mut,'font-weight':400});
+  W(bk,[[30,160],[300,160]],{stroke:cap});
+  // boost
+  const bo=$('boost');bo.innerHTML='';
+  W(bo,[[30,40],[30,85]],{stroke:amp});batt(bo,30,85);W(bo,[[30,93],[30,160]],{stroke:amp});
+  W(bo,[[30,40],[60,40]],{stroke:amp});
+  el(bo,'path',{d:'M60 40 q8 -14 16 0 q8 -14 16 0 q8 -14 16 0 q8 -14 16 0',fill:'none',stroke:amp,'stroke-width':2.5});T(bo,'L',92,22,{'text-anchor':'middle','font-size':12});
+  W(bo,[[124,40],[140,40]],{stroke:amp});
+  W(bo,[[140,40],[140,80]],{stroke:amp});W(bo,[[140,80],[152,100]],{stroke:amp});W(bo,[[140,104],[140,160]],{stroke:amp});T(bo,'Q',128,96,{'font-size':12,'text-anchor':'end'});
+  diodeSym(bo,140,40,220,40,cap,cap);T(bo,'D',180,22,{'text-anchor':'middle','font-size':12,fill:cap});
+  W(bo,[[220,40],[300,40]],{stroke:cap});
+  W(bo,[[245,40],[245,92]]);W(bo,[[233,92],[257,92]],{'stroke-width':3});W(bo,[[233,100],[257,100]],{'stroke-width':3});W(bo,[[245,100],[245,160]]);T(bo,'C',262,100,{'font-size':12});
+  el(bo,'rect',{x:288,y:72,width:24,height:56,rx:3,fill:'none',stroke:ink,'stroke-width':2.5});W(bo,[[300,40],[300,72]],{stroke:cap});W(bo,[[300,128],[300,160]],{stroke:cap});T(bo,'load',300,180,{'text-anchor':'middle','font-size':10,fill:mut,'font-weight':400});
+  W(bo,[[140,160],[300,160]],{stroke:cap});W(bo,[[30,160],[140,160]],{stroke:amp});
+  // inverter
+  const iv=$('inv');iv.innerHTML='';
+  W(iv,[[40,20],[400,20]]);W(iv,[[40,200],[400,200]]);T(iv,'+V_DC',36,24,{'text-anchor':'end','font-size':11});T(iv,'0 V',36,204,{'text-anchor':'end','font-size':11});
+  ['U','V','W'].forEach((ph,i)=>{const x=110+i*120;W(iv,[[x,20],[x,40]]);sw(iv,x,40,i===0,i===0?amp:ink,'S'+(i*2+1));W(iv,[[x,90],[x,130]]);sw(iv,x,130,i===1,i===1?amp:ink,'S'+(i*2+2));W(iv,[[x,180],[x,200]]);
+    el(iv,'circle',{cx:x,cy:110,r:4,fill:ink});W(iv,[[x,110],[460,110+(i-1)*40]],{stroke:volt,'stroke-width':2});T(iv,ph,x+8,106,{'font-size':12,fill:volt});});
+  el(iv,'circle',{cx:500,cy:110,r:44,fill:'none',stroke:ink,'stroke-width':2.5});T(iv,'M',500,116,{'text-anchor':'middle','font-size':18});T(iv,'3-phase',500,175,{'text-anchor':'middle','font-size':10,fill:mut,'font-weight':400});
+  T(iv,'one half-bridge per phase; highlighted: S1 on, S4 on → current U → V',230,225,{'text-anchor':'middle','font-size':10,fill:amp,'font-weight':400});
+}
+
+/* ---------- 01 levels ---------- */
+function drawLevels(){
+  const cv=$('cvLevels'),{x,w,h}=prep(cv);const L=56,R=w-12,mid=h/2,amp=(h/2-24),span=R-L;
+  x.strokeStyle=css('--line');x.lineWidth=1;x.beginPath();x.moveTo(L,mid);x.lineTo(R,mid);x.stroke();
+  txt(x,'0 V',L-6,mid+4,css('--muted'),'right');txt(x,'−325 V',L-6,mid+amp+4,css('--muted'),'right');
+  const lvl=(v,col,lab,lx,dy)=>{const y=mid-amp*v/VPK;x.strokeStyle=col;x.setLineDash([5,5]);x.beginPath();x.moveTo(L,y);x.lineTo(R,y);x.stroke();x.setLineDash([]);x.font='600 12px "JetBrains Mono",monospace';const tw=x.measureText(lab).width;x.fillStyle=css('--panel');x.fillRect(lx-tw/2-4,y+dy-11,tw+8,15);txt(x,lab,lx,y+dy,col,'center');};
+  lvl(VPK,css('--amp'),'V_pk 325 V',L+span*0.6,-6);lvl(230,css('--cap'),'V_RMS 230 V',L+span*0.8,4);lvl(0.637*VPK,css('--good'),'V_avg 207 V',L+span*0.94,14);
+  x.strokeStyle=css('--volt');x.lineWidth=2.5;x.beginPath();for(let i=0;i<=400;i++){const t=i/400*2,px=L+span*i/400,py=mid-amp*Math.sin(2*Math.PI*t);i?x.lineTo(px,py):x.moveTo(px,py);}x.stroke();
+  txt(x,'one cycle = 1/50 s = 20 ms',L+span/4,h-4,css('--muted'),'center');
+}
+
+/* ---------- 02 bridge ---------- */
+const N={A:[210,60],P:[320,170],B:[210,280],M:[100,170]};
+const svg=$('bridge');const paths={pos:[],neg:[],both:[]};let arrow,arrLab;
+function bW(pts,group){const e=el(svg,'polyline',{points:pts.map(p=>p.join(',')).join(' '),fill:'none','stroke-width':3,'stroke-linecap':'round','stroke-linejoin':'round'});paths[group].push(e);return e;}
+function bL(s,x,y,cls,o){const t=el(svg,'text',Object.assign({x,y,'font-size':13,'font-weight':600},o||{}));t.textContent=s;t.classList.add(cls);return t;}
+function bD(a,b,name,group,rule){
+  const [x1,y1]=N[a],[x2,y2]=N[b],dx=x2-x1,dy=y2-y1,len=Math.hypot(dx,dy),ux=dx/len,uy=dy/len,mx=(x1+x2)/2,my=(y1+y2)/2,s=12;
+  let nx=-uy,ny=ux;if((mx+nx*10-210)**2+(my+ny*10-170)**2<(mx-210)**2+(my-170)**2){nx=-nx;ny=-ny;}
+  bW([[x1,y1],[mx-ux*s,my-uy*s]],group);bW([[mx+ux*s,my+uy*s],[x2,y2]],group);
+  const tri=el(svg,'polygon',{points:[[mx-ux*s+nx*s,my-uy*s+ny*s],[mx-ux*s-nx*s,my-uy*s-ny*s],[mx+ux*s,my+uy*s]].map(p=>p.join(',')).join(' ')});
+  const bar=el(svg,'line',{x1:mx+ux*s+nx*s,y1:my+uy*s+ny*s,x2:mx+ux*s-nx*s,y2:my+uy*s-ny*s,'stroke-width':3});
+  for(const e of [tri,bar]){e.dataset.g=group;e.classList.add('dsym');}
+  bL(name,mx+nx*38,my+ny*38-2,'dlab',{'text-anchor':'middle'}).dataset.g=group;
+  bL(rule,mx+nx*38,my+ny*38+13,'dlab',{'text-anchor':'middle','font-size':11,'font-weight':400}).dataset.g=group;
+}
+function buildBridge(){
+  bW([[210,60],[210,148]],'both');bW([[210,192],[210,280]],'both');
+  el(svg,'circle',{cx:210,cy:170,r:22,fill:'none','stroke-width':2.5}).classList.add('fixed');
+  el(svg,'path',{d:'M198 170 q6 -14 12 0 t12 0',fill:'none','stroke-width':2.5}).classList.add('volt');
+  bL('AC',178,166,'mut',{'text-anchor':'end','font-size':12});bL('230 V',178,180,'mut',{'text-anchor':'end','font-size':11,'font-weight':400});
+  bD('A','P','D1','pos','A → +');bD('M','B','D4','pos','− → B');bD('B','P','D2','neg','B → +');bD('M','A','D3','neg','− → A');
+  for(const [k,nm,dx,dy,anc] of [['A','A',0,-12,'middle'],['B','B',0,24,'middle'],['P','+',12,-8,'start'],['M','−',-12,-8,'end']]){el(svg,'circle',{cx:N[k][0],cy:N[k][1],r:4}).classList.add('dot');bL(nm,N[k][0]+dx,N[k][1]+dy,'node',{'text-anchor':anc,'font-size':16});}
+  bW([[320,170],[450,170],[450,210]],'both');bW([[450,300],[450,335],[100,335],[100,170]],'both');
+  el(svg,'rect',{x:438,y:210,width:24,height:90,rx:3,fill:'none','stroke-width':2.5}).classList.add('fixed');
+  bL('LOAD',428,258,'mut',{'text-anchor':'end','font-size':12});
+  arrow=el(svg,'path',{d:'M480 222 v55 m-6 -8 l6 9 l6 -9',fill:'none','stroke-width':2.5});arrLab=bL('I',480,214,'arr2',{'text-anchor':'middle','font-size':12});
+}
+let phase=0.12,playing=!reduce,last=0;
+function paintBridge(){
+  const vin=VPK*Math.sin(2*Math.PI*phase),pos=vin>=0,act=pos?'pos':'neg',flowing=Math.abs(vin)>2;
+  const amp=css('--amp'),line=css('--line'),ink=css('--ink'),mut=css('--muted');
+  for(const g of ['pos','neg','both'])for(const e of paths[g]){const on=flowing&&(g==='both'||g===act);e.setAttribute('stroke',on?amp:line);e.classList.toggle('flow',on&&playing);}
+  svg.querySelectorAll('.dsym').forEach(e=>{const on=flowing&&e.dataset.g===act;e.setAttribute('fill',on?amp:'none');e.setAttribute('stroke',on?amp:line);});
+  svg.querySelectorAll('.dlab').forEach(e=>e.setAttribute('fill',flowing&&e.dataset.g===act?amp:mut));
+  svg.querySelectorAll('.fixed').forEach(e=>e.setAttribute('stroke',ink));svg.querySelectorAll('.dot,.node').forEach(e=>e.setAttribute('fill',ink));
+  svg.querySelectorAll('.volt').forEach(e=>e.setAttribute('stroke',css('--volt')));svg.querySelectorAll('.mut').forEach(e=>e.setAttribute('fill',mut));
+  arrow.setAttribute('stroke',flowing?amp:line);arrLab.setAttribute('fill',flowing?amp:mut);
+  $('vin').textContent=(vin>=0?'+':'−')+Math.abs(vin).toFixed(0)+' V';$('vin').style.color=css('--volt');
+  $('vinNote').textContent=!flowing?'Under 2 V: not enough to get through two diodes':pos?'Positive half: A is pushing':'Negative half: B is pushing';
+  $('vout').textContent='+'+Math.max(0,Math.abs(vin)-2).toFixed(0)+' V';$('vout').style.color=amp;
+  const rule={D1:'A → +',D2:'B → +',D3:'− → A',D4:'− → B'};
+  const need=pos?{D1:'A → +',D4:'− → B',D2:'+ → B',D3:'A → −'}:{D2:'B → +',D3:'− → A',D1:'+ → A',D4:'B → −'};
+  const onSet=flowing?(pos?['D1','D4']:['D2','D3']):[];
+  $('dstate').innerHTML=['D1','D2','D3','D4'].map(d=>{const on=onSet.includes(d);const why=!flowing?'Not enough voltage yet':on?`Current needs ${need[d]}: matches the arrow`:`Current would need ${need[d]}: against the arrow`;return `<tr><td>${d}</td><td>${rule[d]}</td><td class="${on?'on':'off'}">${on?'ON':'OFF'}</td><td>${why}</td></tr>`}).join('');
+  $('steps').innerHTML=(!flowing?['AC crossing zero: nothing flows for a moment (the gap between humps)']:pos?
+    ['Source pushes current out of <b>A</b>','<b>D1</b> (A → +) to <b>+</b>: first V<sub>F</sub>','Down through the <b>load</b>, + to −','Along the bottom wire to <b>−</b>','<b>D4</b> (− → B) to <b>B</b>: second V<sub>F</sub>','Back into the source. Loop complete']:
+    ['Source pushes current out of <b>B</b>','<b>D2</b> (B → +) to <b>+</b>: first V<sub>F</sub>','Down through the <b>load</b>, + to −, <b>same direction as before</b>','Along the bottom wire to <b>−</b>','<b>D3</b> (− → A) to <b>A</b>: second V<sub>F</sub>','Back into the source. Loop complete']).map(s=>`<li>${s}</li>`).join('');
+  const cv=$('cvBridgeWave'),{x,w,h}=prep(cv),L=10,R=w-10,mid=h/2,a=h/2-14;
+  x.strokeStyle=line;x.lineWidth=1;x.beginPath();x.moveTo(L,mid);x.lineTo(R,mid);x.stroke();
+  const tr=(f,col,wd)=>{x.strokeStyle=col;x.lineWidth=wd;x.beginPath();for(let i=0;i<=300;i++){const t=phase-1+i/300*2,px=L+(R-L)*i/300,py=mid-a*f(t);i?x.lineTo(px,py):x.moveTo(px,py);}x.stroke();};
+  tr(t=>Math.sin(2*Math.PI*t),css('--volt'),1.5);tr(t=>Math.abs(Math.sin(2*Math.PI*t))*0.94,amp,2.5);
+  const cx=L+(R-L)/2;x.strokeStyle=ink;x.lineWidth=1.5;x.setLineDash([3,3]);x.beginPath();x.moveTo(cx,4);x.lineTo(cx,h-4);x.stroke();x.setLineDash([]);txt(x,'now',cx+5,14,mut,'left');
+}
+function tick(ts){if(playing){if(last)phase=(phase+(ts-last)*(+$('speed').value)/12000)%1;last=ts;paintBridge();}requestAnimationFrame(tick);}
+function setPlay(p){playing=p;last=0;$('play').textContent=p?'Pause':'Play';$('play').setAttribute('aria-pressed',p);paintBridge();}
+$('play').onclick=()=>setPlay(!playing);$('posBtn').onclick=()=>{phase=.25;setPlay(false);};$('negBtn').onclick=()=>{phase=.75;setPlay(false);};$('stepBtn').onclick=()=>{phase=(phase+1/24)%1;setPlay(false);};
+
+/* ---------- 03 ripple + rectifier calc ---------- */
+const cFrom=v=>Math.round(Math.exp(Math.log(100)+(Math.log(10000)-Math.log(100))*v/1000));
+const toC=c=>Math.round((Math.log(c)-Math.log(100))/(Math.log(10000)-Math.log(100))*1000);
+$('cSlider').value=toC(1000);
+document.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>{$('cSlider').value=toC(+b.dataset.c);drawRipple();});
+function drawRipple(){
+  const C=cFrom(+$('cSlider').value)*1e-6,I=$('iSlider').value/10,VF=1;
+  $('cOut').textContent=(C*1e6).toFixed(0)+' µF';$('iOut').textContent=I.toFixed(1)+' A';
+  document.querySelectorAll('[data-c]').forEach(b=>b.setAttribute('aria-pressed',Math.abs(+b.dataset.c-C*1e6)<20));
+  const cv=$('cvRipple'),{x,w,h}=prep(cv),L=52,R=w-10,top=14,bot=h-22,Tt=0.06,vy=v=>bot-(bot-top)*v/340;
+  x.strokeStyle=css('--line');x.lineWidth=1;for(const v of [0,100,200,300]){x.beginPath();x.moveTo(L,vy(v));x.lineTo(R,vy(v));x.stroke();txt(x,v+' V',L-6,vy(v)+4,css('--muted'),'right');}
+  txt(x,'time → (3 AC cycles, 60 ms)',R,h-4,css('--muted'),'right');
+  const n=900;x.strokeStyle=css('--amp');x.lineWidth=1.5;x.beginPath();for(let i=0;i<=n;i++){const t=Tt*i/n,v=Math.max(0,Math.abs(VPK*Math.sin(2*Math.PI*50*t))-2*VF);const px=L+(R-L)*i/n;i?x.lineTo(px,vy(v)):x.moveTo(px,vy(v));}x.stroke();
+  let vc=0,mn=1e9,mx=0;const dt=Tt/n;x.strokeStyle=css('--cap');x.lineWidth=2.5;x.beginPath();
+  for(let i=0;i<=n;i++){const t=Tt*i/n,vin=Math.abs(VPK*Math.sin(2*Math.PI*50*t))-2*VF;if(vin>vc)vc=vin;else vc=Math.max(0,vc-I*dt/C);if(t>0.02){mn=Math.min(mn,vc);mx=Math.max(mx,vc);}const px=L+(R-L)*i/n;i?x.lineTo(px,vy(vc)):x.moveTo(px,vy(vc));}x.stroke();
+  $('rippleMath').innerHTML=`ΔV = I / (2 × 50 × C) = ${I.toFixed(1)} / (2 × 50 × ${(C*1e6).toFixed(0)}×10⁻⁶) = <span class="hi">${(I/(100*C)).toFixed(2)} V</span><br><span class="c">On the graph: ${(mx-mn).toFixed(2)} V. Slightly less, because the real capacitor starts refilling before the full 10 ms is up.</span>`;
+}
+$('cSlider').oninput=drawRipple;$('iSlider').oninput=drawRipple;
+const BR={A:{n:'KBU4K',vf:1.0,i:4,v:800,src:'1.0 V (datasheet, at I_F = 4 A)'},B:{n:'SKB 25/08',vf:0.87,i:3.5,v:800,src:'0.85 + 0.012 × I ≈ 0.87 V (threshold model)'},C:{n:'T25JA06G-K',vf:0.86,i:25,v:600,src:'0.86 V per diode (datasheet)'},D:{n:'GBU10V08',vf:0.92,i:10,v:800,src:'0.92 V max at 5 A (datasheet)'}};
+const CAP={A:1000,B:2200,C:4700,D:8000};
+for(const k in BR)$('selB').add(new Option(k+' · '+BR[k].n,k));for(const k in CAP)$('selC').add(new Option(k+' · '+CAP[k]+' µF',k));
+function rectWork(){const b=BR[$('selB').value],C=CAP[$('selC').value],I=Math.max(.01,+$('inI').value||1.5);
+  $('rectWork').innerHTML=`<span class="c">// 1. Datasheet</span><br>V<sub>F</sub> = ${b.src}<br>`+
+  `<span class="c">// 2. Heat</span><br>P<sub>D(FB)</sub> = 1.8 × ${b.vf} × ${I} = <span class="hi">${(1.8*b.vf*I).toFixed(2)} W</span><br>`+
+  `<span class="c">// 3. Ripple</span><br>ΔV = ${I} / (2 × 50 × ${C}×10⁻⁶) = ${I} / ${(100*C*1e-6).toFixed(2)} = <span class="hi">${(I/(100*C*1e-6)).toFixed(2)} V</span><br>`+
+  `<span class="c">// 4. Top voltage</span><br>V<sub>pk</sub> = 1.41 × 230 = 325.3 V · V<sub>C,max</sub> = 325.3 − 2 × ${b.vf} = <span class="hi">${(VPK-2*b.vf).toFixed(1)} V</span><br>`+
+  `<span class="c">// 5. Ratings</span><br>I<sub>F(AV)</sub> ${b.i} A > ${I} A <span class="${b.i>I?'ok':'no'}">${b.i>I?'✓':'✗'}</span> · V<sub>RRM</sub> ${b.v} V > 325.3 V <span class="ok">✓</span>`;}
+$('selB').onchange=rectWork;$('selC').onchange=rectWork;$('inI').oninput=rectWork;
+
+/* ---------- 05 PWM ---------- */
+function drawPwm(){
+  const D=+$('dSlider').value/100,V=+$('pwmV').value||0,F=(+$('pwmF').value||1)*1000;$('dOut').textContent=(D*100).toFixed(0)+'%';
+  const cv=$('cvPwm'),{x,w,h}=prep(cv),L=46,R=w-10,top=18,bot=h-26,vy=v=>bot-(bot-top)*v/Math.max(V,1e-9);
+  x.strokeStyle=css('--line');x.lineWidth=1;x.beginPath();x.moveTo(L,bot);x.lineTo(R,bot);x.stroke();txt(x,'0 V',L-6,bot+4,css('--muted'),'right');txt(x,V+' V',L-6,top+4,css('--muted'),'right');
+  const cyc=4,cw=(R-L)/cyc;x.strokeStyle=css('--volt');x.lineWidth=2.5;x.beginPath();x.moveTo(L,bot);
+  for(let c=0;c<cyc;c++){const x0=L+c*cw;x.lineTo(x0,bot);if(D>0){x.lineTo(x0,top);x.lineTo(x0+cw*D,top);}x.lineTo(x0+cw*D,bot);x.lineTo(x0+cw,bot);}x.stroke();
+  const ya=vy(D*V);x.strokeStyle=css('--amp');x.setLineDash([6,5]);x.lineWidth=2;x.beginPath();x.moveTo(L,ya);x.lineTo(R,ya);x.stroke();x.setLineDash([]);txt(x,'average '+(D*V).toFixed(1)+' V',R-4,ya-6,css('--amp'),'right');
+  x.strokeStyle=css('--muted');x.lineWidth=1;const yb=h-10;x.beginPath();x.moveTo(L,yb);x.lineTo(L+cw,yb);x.stroke();txt(x,'T = '+fmt(1e6/F,1)+' µs',L+cw/2,yb-3,css('--muted'),'center',11);
+  $('pwmWork').innerHTML=`T = 1 / F = 1 / ${F} = <span class="hi">${fmt(1e6/F,1)} µs</span> · t<sub>on</sub> = D × T = ${fmt(D*1e6/F,1)} µs · t<sub>off</sub> = ${fmt((1-D)*1e6/F,1)} µs<br>V<sub>avg</sub> = D × V<sub>DD</sub> = ${D.toFixed(2)} × ${V} = <span class="hi">${(D*V).toFixed(2)} V</span>`;
+}
+['dSlider','pwmV','pwmF'].forEach(id=>$(id).oninput=drawPwm);
+
+/* ---------- 06 switching picture + loss calc ---------- */
+function drawSwitch(){
+  const cv=$('cvSwitch'),{x,w,h}=prep(cv),L=14,R=w-14,top=22,bot=h-28;const span=R-L;
+  // segments (fractions of width): off | turn-on (I rise, V fall) | on | turn-off (V rise, I fall) | off
+  const s=[0,.14,.30,.62,.78,1];const X=f=>L+span*f;
+  const V=t=>t<s[1]?1:t<s[2]?(t<(s[1]+s[2])/2?1:1-(t-(s[1]+s[2])/2)/((s[2]-s[1])/2)*0.96):t<s[3]?0.04:t<s[4]?(t<(s[3]+s[4])/2?0.04+(t-s[3])/((s[4]-s[3])/2)*0.96:1):1;
+  const I=t=>t<s[1]?0:t<s[2]?(t<(s[1]+s[2])/2?(t-s[1])/((s[2]-s[1])/2):1):t<s[3]?1:t<s[4]?(t<(s[3]+s[4])/2?1:1-(t-(s[3]+s[4])/2)/((s[4]-s[3])/2)):0;
+  const y=v=>bot-(bot-top)*v;
+  x.fillStyle=css('--soft');x.fillRect(X(s[1]),top-8,X(s[2])-X(s[1]),bot-top+8);x.fillRect(X(s[3]),top-8,X(s[4])-X(s[3]),bot-top+8);
+  x.strokeStyle=css('--line');x.lineWidth=1;x.beginPath();x.moveTo(L,bot);x.lineTo(R,bot);x.stroke();
+  // power fill
+  x.fillStyle=css('--bad');x.globalAlpha=.35;x.beginPath();x.moveTo(L,bot);for(let i=0;i<=600;i++){const t=i/600;x.lineTo(X(t),y(V(t)*I(t)));}x.lineTo(R,bot);x.fill();x.globalAlpha=1;
+  const plot=(f,col)=>{x.strokeStyle=col;x.lineWidth=2.5;x.beginPath();for(let i=0;i<=600;i++){const t=i/600;i?x.lineTo(X(t),y(f(t))):x.moveTo(X(t),y(f(t)));}x.stroke();};
+  plot(V,css('--volt'));plot(I,css('--amp'));
+  const lab=(a,b,s1,s2)=>{txt(x,s1,(X(a)+X(b))/2,h-14,css('--muted'),'center',11);if(s2)txt(x,s2,(X(a)+X(b))/2,h-2,css('--muted'),'center',10);};
+  lab(s[0],s[1],'OFF');lab(s[1],s[2],'turn-on','t_d(on)+t_r');lab(s[2],s[3],'ON: small loss I²R');lab(s[3],s[4],'turn-off','t_d(off)+t_f');lab(s[4],s[5],'OFF');
+  txt(x,'E_ON',(X(s[1])+X(s[2]))/2,top-10,css('--bad'),'center');txt(x,'E_OFF',(X(s[3])+X(s[4]))/2,top-10,css('--bad'),'center');
+}
+const DEV={IRFP140:{r:.077,a:11,b:44,c:53,d:43},IRFP250:{r:.075,a:14,b:43,c:41,d:33},'IRF530 (slide)':{r:.055,a:10,b:34,c:23,d:24}};
+for(const k in DEV)$('lDev').add(new Option(k,k));
+const LP=[['Slide 1 · 24 V 2 A 10 kHz','IRF530 (slide)',24,2,10],['Slide 1 · same at 20 A','IRF530 (slide)',24,20,10],['IRFP140 · 48 V 5 A 10 kHz','IRFP140',48,5,10],['IRFP140 buck · 56 V 10 A 200 kHz','IRFP140',56,10,200],['IRFP250 · 24 V 10 A 13 kHz','IRFP250',24,10,13],['IRFP250 buck · 100 V 12 A 180 kHz','IRFP250',100,12,180]];
+LP.forEach((p,i)=>{const b=document.createElement('button');b.textContent=p[0];b.onclick=()=>{$('lDev').value=p[1];$('lV').value=p[2];$('lI').value=p[3];$('lF').value=p[4];lossWork();};$('lossPresets').appendChild(b);b.dataset.i=i;});
+function lossWork(){
+  const d=DEV[$('lDev').value],V=+$('lV').value||0,I=+$('lI').value||0,F=(+$('lF').value||0)*1000;
+  const Pc=d.r*I*I,ton=(d.a+d.b)*1e-9,toff=(d.c+d.d)*1e-9,Eon=V*I/2*ton,Eoff=V*I/2*toff,Psw=(Eon+Eoff)*F,P=Pc+Psw;
+  document.querySelectorAll('#lossPresets button').forEach(b=>{const p=LP[b.dataset.i];b.setAttribute('aria-pressed',p[1]===$('lDev').value&&p[2]===V&&p[3]===I&&p[4]===F/1000);});
+  $('lossWork').innerHTML=`<span class="c">// datasheet: R_DS(on) = ${d.r} Ω · t_d(on) + t_r = ${d.a} + ${d.b} = ${d.a+d.b} ns · t_d(off) + t_f = ${d.c} + ${d.d} = ${d.c+d.d} ns</span><br>`+
+  `P<sub>cond</sub> = R<sub>DS(on)</sub> × I<sub>D</sub>² = ${d.r} × ${I}² = ${d.r} × ${fmt(I*I)} = <span class="hi">${fmt(Pc,3)} W</span><br>`+
+  `E<sub>ON</sub> = (${V} × ${I} / 2) × ${d.a+d.b}×10⁻⁹ = ${fmt(V*I/2)} × ${d.a+d.b}×10⁻⁹ = ${Eon.toExponential(3)} J<br>`+
+  `E<sub>OFF</sub> = ${fmt(V*I/2)} × ${d.c+d.d}×10⁻⁹ = ${Eoff.toExponential(3)} J<br>`+
+  `P<sub>SW</sub> = (E<sub>ON</sub> + E<sub>OFF</sub>) × F<sub>SW</sub> = ${(Eon+Eoff).toExponential(3)} × ${F} = <span class="hi">${fmt(Psw,3)} W</span><br>`+
+  `P<sub>MOSFET</sub> = ${fmt(Pc,3)} + ${fmt(Psw,3)} = <span class="hi">${fmt(P,3)} W</span> <span class="c">· ${P>0?(Pc>=Psw?'conduction dominates (low frequency)':'switching dominates (high frequency)'):''}</span>`;
+  const pc=P>0?Pc/P*100:50;$('lossBar').innerHTML=`<span style="width:${pc}%;background:var(--volt)">${pc>12?fmt(Pc,2)+' W':''}</span><span style="width:${100-pc}%;background:var(--bad)">${100-pc>12?fmt(Psw,2)+' W':''}</span>`;
+  const Tj=P*40+40;$('lossWarn').innerHTML=P>0?`With no heatsink (R<sub>thJA</sub> = 40 °C/W, 40 °C air): T<sub>J</sub> ≈ ${fmt(P,2)} × 40 + 40 = <b>${fmt(Tj,0)} °C</b>. ${Tj>120?'Over 120 °C, so it needs a heatsink (chapter 07).':'Under 120 °C, but check the 30% margin.'}`:'';
+}
+['lDev','lV','lI','lF'].forEach(id=>$(id).oninput=lossWork);$('lDev').onchange=lossWork;
+
+/* ---------- 07 thermal ---------- */
+const TP=[['Example 1',{P:10,A:60,r1:.5,r2:1,r3:2,no:false}],['Example 2',{P:15,A:70,r1:.7,r2:1.5,r3:1.2,no:false}],['Size for 16.2 W buck',{P:16.2,A:40,r1:.7,r2:.24,r3:2.76,no:false}],['Self-prep A · 30 W, pad',{P:30,A:60,r1:.7,r2:2.5,r3:0,no:false}],['Self-prep B · 2.11 W, no heatsink',{P:2.11,A:40,r1:.83,r2:.24,r3:0,no:true}]];
+TP.forEach((p,i)=>{const b=document.createElement('button');b.textContent=p[0];b.onclick=()=>{const v=p[1];$('tP').value=v.P;$('tA').value=v.A;$('t1').value=v.r1;$('t2').value=v.r2;$('t3').value=v.r3;$('tNo').checked=v.no;thermal();};$('thPresets').appendChild(b);});
+function thermal(){
+  const P=+$('tP').value||0,A=+$('tA').value||0,r1=+$('t1').value||0,r2=+$('t2').value||0,r3=+$('t3').value||0,no=$('tNo').checked,ja=+$('tJA').value||0,tg=+$('tTarget').value;
+  const g=$('thermo');g.innerHTML='';const W0=640,L=40,R=W0-20,maxT=Math.max(180,(no?A+P*ja:A+P*(r1+r2+r3))+10);
+  const yT=t=>140-(140-20)*(t-0)/maxT;
+  // limit lines
+  for(const [t,lab,col] of [[175,'175 °C absolute max','var(--bad)'],[120,'120 °C design limit','var(--amp)']]){el(g,'line',{x1:L,x2:R,y1:yT(t),y2:yT(t),stroke:col,'stroke-dasharray':'5 5','stroke-width':1.5});T(g,lab,R,yT(t)-4,{'text-anchor':'end','font-size':10,fill:col,'font-weight':400});}
+  let pts,out;
+  if(no){const Tj=A+P*ja;pts=[['Air',A],['Junction',Tj]];
+    out=`<span class="c">// no heatsink: one resistance R_thJA from junction straight to air</span><br>T<sub>J</sub> = T<sub>amb</sub> + P × R<sub>thJA</sub> = ${A} + ${P} × ${ja} = <span class="hi">${fmt(Tj,1)} °C</span>`;
+    out+=`<br>margin = 100 − (${fmt(Tj,1)} / 175) × 100 = <span class="hi">${fmt(100-Tj/175*100,1)}%</span> ${Tj>120||100-Tj/175*100<30?'<span class="no">✗ too hot: add a heatsink</span>':'<span class="ok">✓ OK without a heatsink</span>'}`;}
+  else{const Ths=A+P*r3,Tc=Ths+P*r2,Tj=Tc+P*r1;pts=[['Air',A],['Heatsink',Ths],['Case',Tc],['Junction',Tj]];
+    const need=(tg-A)/P-(r1+r2);
+    out=`<span class="c">// work outwards from the air</span><br>T<sub>hs</sub> = ${A} + ${P} × ${r3} = ${fmt(Ths,1)} °C<br>T<sub>C</sub> = ${fmt(Ths,1)} + ${P} × ${r2} = ${fmt(Tc,1)} °C<br>T<sub>J</sub> = ${fmt(Tc,1)} + ${P} × ${r1} = <span class="hi">${fmt(Tj,1)} °C</span><br>`+
+    `margin = 100 − (${fmt(Tj,1)} / 175) × 100 = <span class="hi">${fmt(100-Tj/175*100,1)}%</span> ${Tj<=120&&100-Tj/175*100>=30?'<span class="ok">✓ within 120 °C and ≥ 30%</span>':'<span class="no">✗ over 120 °C or under 30%</span>'}<br>`+
+    `<span class="c">// heatsink needed for T_J = ${tg} °C</span><br>R<sub>th3</sub> = (${tg} − ${A}) / ${P} − (${r1} + ${r2}) = ${fmt((tg-A)/P,3)} − ${fmt(r1+r2,2)} = <span class="hi">${fmt(need,3)} °C/W</span> `+
+    (need<0?'<span class="no">negative: impossible even with a perfect heatsink. Lower R_th2, cut the loss, or use active cooling</span>':'<span class="ok">choose a heatsink at or below this</span>');}
+  // draw node bars
+  const n=pts.length,gap=(R-L)/(n);pts.forEach((p,i)=>{const cx=L+gap*(i+.5),yy=yT(p[1]),hot=p[1]>120;
+    el(g,'rect',{x:cx-22,y:yy,width:44,height:Math.max(0,140-yy),rx:4,fill:hot?'var(--bad)':'var(--amp)',opacity:.8});
+    T(g,fmt(p[1],1)+' °C',cx,yy-6,{'text-anchor':'middle','font-size':12});T(g,p[0],cx,158,{'text-anchor':'middle','font-size':11,fill:'var(--muted)','font-weight':400});
+    if(i<n-1){const nx=L+gap*(i+1.5);el(g,'path',{d:`M${cx+26} 150 H${nx-26}`,stroke:'var(--line)','stroke-width':1.5,fill:'none'});}});
+  el(g,'line',{x1:L,x2:R,y1:140,y2:140,stroke:'var(--line)','stroke-width':1});
+  $('thWork').innerHTML=out;
+}
+['tP','tA','t1','t2','t3','tJA'].forEach(id=>$(id).oninput=thermal);$('tNo').onchange=thermal;$('tTarget').onchange=thermal;
+
+/* ---------- 08 converters ---------- */
+function conv(){const t=$('cType').value,Vin=+$('cVin').value||0,D=+$('cD').value/100;$('cDOut').textContent=D.toFixed(2);
+  $('convOut').innerHTML=t==='buck'?`Buck: V<sub>out</sub> = D × V<sub>in</sub> = ${D.toFixed(2)} × ${Vin} = <span class="hi">${fmt(D*Vin,2)} V</span>`:`Boost: V<sub>out</sub> = V<sub>in</sub> / (1 − D) = ${Vin} / ${fmt(1-D,2)} = <span class="hi">${fmt(Vin/(1-D),2)} V</span>`;}
+['cType','cVin','cD'].forEach(id=>$(id).oninput=conv);$('cType').onchange=conv;
+function buck(){const Vin=+$('bVin').value||0,Vo=+$('bVout').value||0,I=+$('bI').value||0,F=(+$('bF').value||1)*1000,r=(+$('bR').value||10)/100;
+  const D=Vin?Vo/Vin:0,dI=I*r,dV=Vo*r,L=Vo*(1-D)/(F*dI),Ls=Vin*(1-D)/(F*dI),C=dI/(8*F*dV);
+  $('buckWork').innerHTML=`D = V<sub>out</sub> / V<sub>in</sub> = ${Vo} / ${Vin} = ${fmt(D,3)} · ΔI<sub>L</sub> = ${r*100}% × ${I} = ${fmt(dI,2)} A · ΔV = ${r*100}% × ${Vo} = ${fmt(dV,2)} V<br>`+
+  `L = V<sub>out</sub>(1 − D) / (F<sub>SW</sub> × ΔI<sub>L</sub>) = ${Vo} × ${fmt(1-D,3)} / (${F} × ${fmt(dI,2)}) = <span class="hi">${fmt(L*1e6,1)} µH</span> <span class="c">(using V_in as the slide does: ${fmt(Ls*1e6,1)} µH)</span><br>`+
+  `C<sub>out</sub> ≥ ΔI<sub>L</sub> / (8 × F<sub>SW</sub> × ΔV) = ${fmt(dI,2)} / (8 × ${F} × ${fmt(dV,2)}) = <span class="hi">${fmt(C*1e6,2)} µF</span>`;}
+['bVin','bVout','bI','bF','bR'].forEach(id=>$(id).oninput=buck);
+$('bEx1').onclick=()=>{$('bF').value=25;buck();};$('bEx2').onclick=()=>{$('bF').value=150;buck();};
+
+/* ---------- 09 H-bridge + inverter calc ---------- */
+let hs='fwd';
+function hbridge(){
+  const g=$('hbridge');g.innerHTML='';const amp='var(--amp)',ink='var(--ink)',line='var(--line)',bad='var(--bad)';
+  const st={fwd:[1,0,0,1],rev:[0,1,1,0],brake:[0,0,1,1],short:[1,0,1,0]}[hs];
+  const col=i=>st[i]?(hs==='short'?bad:amp):ink;
+  W(g,[[40,30],[440,30]],{stroke:hs==='brake'?line:amp});W(g,[[40,270],[440,270]],{stroke:hs==='brake'?amp:(hs==='short'?bad:amp)});
+  T(g,'+V',34,34,{'text-anchor':'end','font-size':12});T(g,'0 V',34,274,{'text-anchor':'end','font-size':12});
+  sw(g,120,30,st[0],col(0),'S1');sw(g,360,30,st[1],col(1),'S2');
+  W(g,[[120,80],[120,220]],{stroke:st[0]||st[2]?col(st[0]?0:2):ink});W(g,[[360,80],[360,220]],{stroke:st[1]||st[3]?col(st[1]?1:3):ink});
+  sw(g,120,220,st[2],col(2),'S3');sw(g,360,220,st[3],col(3),'S4');
+  W(g,[[120,150],[205,150]],{stroke:hs==='short'?line:amp});W(g,[[275,150],[360,150]],{stroke:hs==='short'?line:amp});
+  el(g,'circle',{cx:240,cy:150,r:35,fill:'none',stroke:ink,'stroke-width':2.5});T(g,'M',240,156,{'text-anchor':'middle','font-size':18});
+  if(hs==='fwd'||hs==='rev'){const d=hs==='fwd'?'M175 125 h130 m-9 -6 l9 6 l-9 6':'M305 125 h-130 m9 -6 l-9 6 l9 6';el(g,'path',{d,fill:'none',stroke:amp,'stroke-width':2.5});T(g,hs==='fwd'?'current left → right':'current right → left',240,108,{'text-anchor':'middle','font-size':11,fill:amp});}
+  if(hs==='short'){el(g,'path',{d:'M95 40 v220',stroke:bad,'stroke-width':3,'stroke-dasharray':'6 5'});T(g,'SHORT CIRCUIT',90,150,{'text-anchor':'end','font-size':12,fill:bad});}
+  const notes={fwd:'<b>Forward:</b> S1 and S4 on (a diagonal pair). Current goes +V → S1 → motor left to right → S4 → 0 V. PWM on one of them sets the speed.',
+    rev:'<b>Reverse:</b> the other diagonal, S2 and S3. Current goes through the motor right to left, so it spins the other way. That\'s the point of an H-bridge.',
+    brake:'<b>Brake:</b> both bottom switches, S3 and S4. The motor terminals are shorted together through 0 V, so its own back-EMF drives a current that slows it quickly.',
+    short:'<b>Never:</b> S1 and S3 are on the same side. That connects +V straight to 0 V through two switches with nothing in between, which is called <b>shoot-through</b>. Huge current, destroyed MOSFETs. Drivers add "dead time" so both switches on one side can never be on together.'};
+  $('hNote').innerHTML=notes[hs];
+  document.querySelectorAll('[data-h]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.h===hs));
+}
+document.querySelectorAll('[data-h]').forEach(b=>b.onclick=()=>{hs=b.dataset.h;hbridge();});
+function inv(){const Vdc=+$('iVdc').value||0,P=+$('iP').value||0,pf=+$('iPf').value||1,eta=+$('iEta').value||1;
+  const VL=Vdc/Math.SQRT2,Ip=P/(Math.sqrt(3)*VL*pf*eta),Id=Ip/Math.SQRT2;
+  $('invWork').innerHTML=`V<sub>L</sub> = V<sub>DC</sub> / √2 = ${Vdc} / 1.414 = ${fmt(VL,2)} V<br>I<sub>phase,RMS</sub> = ${P} / (1.732 × ${fmt(VL,2)} × ${pf} × ${eta}) = <span class="hi">${fmt(Ip,2)} A</span><br>I<sub>D,RMS</sub> = ${fmt(Ip,2)} / 1.414 = <span class="hi">${fmt(Id,2)} A</span> <span class="c">per transistor: use this in the chapter 06 loss calculation</span>`;}
+['iVdc','iP','iPf','iEta'].forEach(id=>$(id).oninput=inv);
+
+/* ---------- boot ---------- */
+buildBridge();
+function all(){drawStatic();drawLevels();paintBridge();drawRipple();rectWork();drawPwm();drawSwitch();lossWork();thermal();conv();buck();hbridge();inv();}
+let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(all,80);});
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',all);
+new MutationObserver(all).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+if(document.fonts)document.fonts.ready.then(all);
+$('lDev').value='IRFP250';
+all();requestAnimationFrame(tick);if(reduce)setPlay(false);
+})();
+</script>
+
+</body>
+</html>
