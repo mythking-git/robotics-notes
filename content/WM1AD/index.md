@@ -31,9 +31,9 @@ title: WM1AD · Electrical Power and Motors
 7. [[DC-DC converters]]: buck and boost
 8. [[Motor drives]]: H-bridges, inverters and stepper drivers
 
-> [!tip] Interactive version of Week 3
-> The [Week 3 interactive page](/static/wm1ad-week3.html) has an animated bridge rectifier, a PWM slider and calculators for every formula.
+9. [[Week 3 interactive]]: the whole week on one page, with live models and calculators
 
 ## Revision
+- [[WM1AD practice questions]]: test-style questions with hidden worked answers
 - [[WM1AD formula sheet]]: every formula from the module on one page
 - [[glossary]]: every symbol across the course

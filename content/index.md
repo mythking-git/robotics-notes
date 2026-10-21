@@ -19,10 +19,18 @@ These aren't lecture transcripts. Each guide takes **one topic** and explains it
 
 New to the course? Start with the [[course|course overview]]. Stuck on a symbol? Try the [[glossary]].
 
+## Also here
+| | Section | What's in it |
+|---|---|---|
+| ✍️ | **Practice questions** | Test-style questions with hidden worked answers: [[WM1AD practice questions\|WM1AD]] · [[WM1AC practice questions\|WM1AC]] · [[WM199 practice questions\|WM199]] |
+| 🧮 | [[Tools/index\|Tools]] | Using the [[Scientific calculator\|scientific calculator]] and [[MATLAB basics\|MATLAB]] |
+| 🎯 | [[Careers and development/index\|Careers and development]] | Spring weeks, internships, placements, applications, CV outline, CPD and skills templates |
+
 ## Newest guides
 - **WM1AD Week 3:** [[Bridge rectifiers]] · [[MOSFET power loss]] · [[Thermal design and heatsinks]] · [[DC-DC converters]] · [[Motor drives]]
 - **WM1AC Week 3:** [[Gear trains and belt drives]] · [[Absolute motion analysis]] · [[Relative motion analysis]]
 - **WM199 Week 3:** [[Hazards and risk assessment]] · [[Designing for safety]]
+- **New:** [[Week 3 interactive]] · practice questions for every Block 1 module · [[Finding opportunities|careers guides]]
 
 ## How to use these guides
 1. Read **the idea** first. If that makes sense, the maths will too.

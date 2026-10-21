@@ -21,4 +21,5 @@ The running example in the seminars is a **campus delivery robot** that moves eq
 2. [[Designing for safety]]: inherent safety, safe failure, Swiss cheese, HAZOP, FMEA and safe systems of work
 
 ## Revision
+- [[WM199 practice questions]]: test-style questions with hidden worked answers
 - [[glossary]]: every term across the course

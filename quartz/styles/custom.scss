@@ -1,3 +1,39 @@
 @use "./variables.scss" as *;
 
 // put your custom CSS here!
+
+// Diagrams have a cream background; tone them down a little in dark mode
+:root[saved-theme="dark"] article img[src$=".svg"] {
+  filter: brightness(0.86) sepia(0.15);
+}
+
+article img[src$=".svg"] {
+  border-radius: 10px;
+}
+
+// Embedded interactive pages
+.interactive-frame {
+  width: 100%;
+  height: 85vh;
+  border: 1px solid var(--lightgray);
+  border-radius: 10px;
+  background: var(--light);
+}
+
+// Warm, sepia-friendly callout colours
+.callout {
+  &[data-callout="info"], &[data-callout="note"] { --color: #2f6b74; --border: #2f6b7444; --bg: #2f6b7412; }
+  &[data-callout="tip"], &[data-callout="hint"] { --color: #4f7a3a; --border: #4f7a3a44; --bg: #4f7a3a12; }
+  &[data-callout="example"] { --color: #7d5a8c; --border: #7d5a8c40; --bg: #7d5a8c10; }
+  &[data-callout="question"], &[data-callout="faq"], &[data-callout="help"] { --color: #b5651d; --border: #b5651d44; --bg: #b5651d10; }
+  &[data-callout="warning"], &[data-callout="caution"], &[data-callout="attention"] { --color: #a8402e; --border: #a8402e44; --bg: #a8402e10; }
+  &[data-callout="important"] { --color: #9a4f24; --border: #9a4f2444; --bg: #9a4f2412; }
+}
+:root[saved-theme="dark"] .callout {
+  &[data-callout="info"], &[data-callout="note"] { --color: #7fb7bf; }
+  &[data-callout="tip"], &[data-callout="hint"] { --color: #93b872; }
+  &[data-callout="example"] { --color: #b99ac6; }
+  &[data-callout="question"], &[data-callout="faq"], &[data-callout="help"] { --color: #d9a066; }
+  &[data-callout="warning"], &[data-callout="caution"], &[data-callout="attention"] { --color: #e08a72; }
+  &[data-callout="important"] { --color: #e0b07a; }
+}

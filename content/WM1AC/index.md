@@ -27,5 +27,6 @@ title: WM1AC · Mechanisms and Machines
 Week 4: forces, moments, static equilibrium, Newton's second law and centre of mass.
 
 ## Revision
+- [[WM1AC practice questions]]: test-style questions with hidden worked answers
 - [[WM1AC formula sheet]]
 - [[glossary]]

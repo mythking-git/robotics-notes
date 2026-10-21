@@ -6,30 +6,36 @@
 <title>WM1AD Week 3 Guide</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..800&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<script>
+(function(){
+  function apply(){try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);}catch(e){}}
+  apply();addEventListener("storage",function(e){if(e.key==="theme"){apply();if(window.__redraw)window.__redraw();}});
+})();
+</script>
 <style>
 /* Layout: a bench notebook. One column, eight chapters following the power chain from wall socket to motor; every chapter = picture, plain-English idea, derivation, live calculator */
 :root{
-  --bg:#eef1f4; --panel:#ffffff; --ink:#18212b; --muted:#5a6774; --line:#c9d1da; --soft:#e4e9ee;
-  --volt:#1f6f8b;   /* voltages */
-  --amp:#d9822b;    /* current, active path, key results */
-  --cap:#6a4fb3;    /* second path / RMS / capacitor */
-  --good:#2e7d4f; --bad:#c0392b;
-  --f-display:"Archivo",system-ui,sans-serif; --f-body:"Source Sans 3",system-ui,sans-serif; --f-mono:"JetBrains Mono",ui-monospace,monospace;
+  --bg:#f4ecd8; --panel:#fbf5e6; --ink:#3b3226; --muted:#7a6a52; --line:#d6c6a4; --soft:#e9dcbf;
+  --volt:#2f6b74;   /* voltages */
+  --amp:#b5651d;    /* current, active path, key results */
+  --cap:#7d5a8c;    /* second path / RMS / capacitor */
+  --good:#4f7a3a; --bad:#a8402e;
+  --f-display:"Literata",Georgia,serif; --f-body:"Literata",Georgia,serif; --f-mono:"JetBrains Mono",ui-monospace,monospace;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#11161c; --panel:#1a2129; --ink:#e3e8ee; --muted:#93a1ae; --line:#2e3944; --soft:#232c36;
-  --volt:#5fb4d3; --amp:#f0a050; --cap:#a78bfa; --good:#5cc489; --bad:#ef6f62; color-scheme:dark}}
+  --bg:#1f1b16; --panel:#29231c; --ink:#f1e6d0; --muted:#b3a58c; --line:#3a332a; --soft:#332c23;
+  --volt:#7fb7bf; --amp:#d9a066; --cap:#b99ac6; --good:#93b872; --bad:#e08a72; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#11161c; --panel:#1a2129; --ink:#e3e8ee; --muted:#93a1ae; --line:#2e3944; --soft:#232c36;
-  --volt:#5fb4d3; --amp:#f0a050; --cap:#a78bfa; --good:#5cc489; --bad:#ef6f62; color-scheme:dark}
+  --bg:#1f1b16; --panel:#29231c; --ink:#f1e6d0; --muted:#b3a58c; --line:#3a332a; --soft:#332c23;
+  --volt:#7fb7bf; --amp:#d9a066; --cap:#b99ac6; --good:#93b872; --bad:#e08a72; color-scheme:dark}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 body{background:var(--bg);color:var(--ink);font:17px/1.6 var(--f-body);
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 72px}
 main{max-width:880px;margin:0 auto;display:flex;flex-direction:column;gap:56px}
-h1,h2,h3{font-family:var(--f-display);font-stretch:80%;line-height:1.15;text-wrap:balance;margin:0}
+h1,h2,h3{font-family:var(--f-display);line-height:1.15;text-wrap:balance;margin:0}
 h1{font-size:clamp(2.1rem,6vw,3.3rem);font-weight:800}
 h2{font-size:clamp(1.5rem,4vw,1.9rem);font-weight:700}
 h3{font-size:1.15rem;font-weight:700;font-stretch:90%}
@@ -83,7 +89,7 @@ sub,sup{font-size:.72em;line-height:0}
 .deriv>ol{margin:0;padding-left:24px;display:flex;flex-direction:column;gap:9px;max-width:70ch}
 .deriv>ol>li::marker{font-family:var(--f-mono);color:var(--amp)}
 details.deriv{border:1px solid var(--line);border-radius:10px;padding:12px 16px;background:var(--panel)}
-details.deriv>summary{cursor:pointer;font:700 1.02rem var(--f-display);font-stretch:90%;list-style:none;display:flex;gap:10px;align-items:baseline}
+details.deriv>summary{cursor:pointer;font:700 1.02rem var(--f-display);list-style:none;display:flex;gap:10px;align-items:baseline}
 details.deriv>summary::before{content:"+";font-family:var(--f-mono);color:var(--amp);width:1ch}
 details.deriv[open]>summary::before{content:"−"}
 details.deriv[open]>summary{margin-bottom:6px}
@@ -110,7 +116,8 @@ footer{color:var(--muted);font-size:.9rem}
 
 </head>
 <body>
-<p style="max-width:880px;margin:0 auto 12px"><a href="../wm1ad/">← Back to the WM1AD guides</a></p>
+<p id="backlink" style="max-width:880px;margin:0 auto 12px"><a href="/wm1ad/" target="_top">← Back to the WM1AD guides</a></p>
+<script>if(window.self!==window.top){document.getElementById("backlink").hidden=true;}</script>
 <main>
 <header style="display:flex;flex-direction:column;gap:14px">
   <span class="eyebrow">WM1AD Electrical Power and Motors · Week 3</span>
@@ -1024,7 +1031,7 @@ function inv(){const Vdc=+$('iVdc').value||0,P=+$('iP').value||0,pf=+$('iPf').va
 
 /* ---------- boot ---------- */
 buildBridge();
-function all(){drawStatic();drawLevels();paintBridge();drawRipple();rectWork();drawPwm();drawSwitch();lossWork();thermal();conv();buck();hbridge();inv();}
+window.__redraw=function(){all();};function all(){drawStatic();drawLevels();paintBridge();drawRipple();rectWork();drawPwm();drawSwitch();lossWork();thermal();conv();buck();hbridge();inv();}
 let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(all,80);});
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change',all);
 new MutationObserver(all).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
