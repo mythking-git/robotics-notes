@@ -13,3 +13,5 @@ I'm Mikey, a first-year student on Warwick's **Robotics Engineering with AI** BE
 - No assessed work. Anything I've submitted for marks stays private.
 
 If you're on the same course: these are a companion, not a replacement. Go to the sessions and do the problems yourself.
+
+Last updated: 21 Oct 2026
