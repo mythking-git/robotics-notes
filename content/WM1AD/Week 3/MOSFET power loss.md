@@ -7,7 +7,7 @@ A MOSFET wastes power in two separate ways:
 - **Conduction loss:** while it's **fully on**, current flows through its small on-resistance $R_{DS(on)}$.
 - **Switching loss:** while it's **changing state**, for a few nanoseconds there's a large voltage across it *and* a large current through it at the same time. This happens twice per cycle, so it grows with the switching frequency.
 
-![Voltage, current and power during MOSFET switching](../assets/switching-loss.svg)
+![Voltage, current and power during MOSFET switching](../../assets/switching-loss.svg)
 
 When it's off there's full voltage but no current, so no loss. When it's on there's full current but only a tiny voltage ($I \times R_{DS(on)}$), so a small loss. The red spikes are where both are large together.
 

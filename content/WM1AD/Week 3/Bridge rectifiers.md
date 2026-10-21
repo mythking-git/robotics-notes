@@ -19,11 +19,11 @@ Name the four corners: **A** and **B** connect to the AC, **+** and **−** conn
 
 Two arrows point *into* +, two point *out of* −. So whatever the AC does, current can only arrive at + and leave from −. **It always goes through the load from + to −.**
 
-![Bridge rectifier, positive half: D1 and D4 conduct](../assets/bridge-positive.svg)
+![Bridge rectifier, positive half: D1 and D4 conduct](../../assets/bridge-positive.svg)
 
 **Positive half (A pushes):** A → D1 → + → load → − → D4 → B. D2 and D3 would need current to flow against their arrows, so they block.
 
-![Bridge rectifier, negative half: D2 and D3 conduct](../assets/bridge-negative.svg)
+![Bridge rectifier, negative half: D2 and D3 conduct](../../assets/bridge-negative.svg)
 
 **Negative half (B pushes):** B → D2 → + → load → − → D3 → A. Same direction through the load.
 
@@ -36,7 +36,7 @@ A **three-phase bridge** (6 diodes) on a three-phase supply gives six overlappin
 ## Smoothing with a capacitor
 The humps still drop to 0 V between peaks. A **capacitor** across the output works like a water tank: it fills at each peak, and the load drains it a little until the next hump refills it. The dip is the **ripple, $\Delta V$**.
 
-![Rectified humps and the smoothed capacitor voltage](../assets/ripple.svg)
+![Rectified humps and the smoothed capacitor voltage](../../assets/ripple.svg)
 
 **Deriving the ripple:**
 1. Refills happen 100 times a second, so the gap is $\Delta t = \dfrac{1}{2F_{grid}} = 10$ ms.

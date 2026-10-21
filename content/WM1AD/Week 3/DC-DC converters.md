@@ -6,14 +6,14 @@ tags: [WM1AD, week-3]
 A battery gives one voltage, but a robot needs several: one for the motors, one for the logic, one for the sensors. A **DC-DC converter** chops the input with a MOSFET ([[PWM]]), then smooths the result with an **inductor** (which stores energy in its current) and a **capacitor** (which stores energy in its voltage). The duty cycle $D$ sets the output.
 
 ## Buck (step-down)
-![Buck converter with on and off current paths](../assets/buck.svg)
+![Buck converter with on and off current paths](../../assets/buck.svg)
 - **Switch on:** the battery drives current through L into the load. L stores energy.
 - **Switch off:** L keeps the current flowing (inductors resist sudden changes in current), and the diode completes the loop. This is called **freewheeling**.
 
 $$\boxed{V_{out} = D\,V_{in}}$$
 
 ## Boost (step-up)
-![Boost converter with on and off current paths](../assets/boost.svg)
+![Boost converter with on and off current paths](../../assets/boost.svg)
 - **Switch on:** L is connected straight across the battery and charges up. The capacitor feeds the load.
 - **Switch off:** the battery and L push *together* through the diode, so the output rises above $V_{in}$.
 

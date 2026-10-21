@@ -8,8 +8,8 @@ The last link in the chain is a set of switches arranged so the motor gets the r
 ## Brushed DC: the H-bridge
 One MOSFET with PWM (a *single-switch chopper*) controls speed, but only in one direction. To reverse the motor you need to flip the polarity across it. Four switches in an **H** do that:
 
-![H-bridge forward: S1 and S4 on](../assets/hbridge-forward.svg)
-![H-bridge reverse: S2 and S3 on](../assets/hbridge-reverse.svg)
+![H-bridge forward: S1 and S4 on](../../assets/hbridge-forward.svg)
+![H-bridge reverse: S2 and S3 on](../../assets/hbridge-reverse.svg)
 
 | Switches on | Result |
 |---|---|

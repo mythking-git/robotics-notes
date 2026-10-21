@@ -5,7 +5,7 @@ tags: [WM1AD, week-3]
 ## The idea
 Every watt a component loses becomes heat inside its silicon **junction**. That heat has to flow out through the **case**, into a **heatsink**, then into the **air**. Each step resists the flow, so the junction ends up hotter than the air. Treat it exactly like Ohm's law: **heat flow behaves like current, temperature like voltage, and thermal resistance like resistance**.
 
-![Thermal resistance ladder from junction to air](../assets/thermal-ladder.svg)
+![Thermal resistance ladder from junction to air](../../assets/thermal-ladder.svg)
 
 | Electrical | Thermal |
 |---|---|

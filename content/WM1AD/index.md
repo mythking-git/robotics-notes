@@ -1,25 +1,39 @@
 ---
 title: WM1AD · Electrical Power and Motors
 ---
-Electrical principles, power electronics and motors: how energy gets from a battery or the grid into a robot's motors, and how to choose the parts.
+**Block 1 · 15 credits.** Electrical principles, power electronics and motors: how energy gets from a battery or the grid into a robot's motors, and how to choose the parts that do it.
+
+**You'll be able to:** describe the main types of electric motor · calculate electrical quantities in actuator circuits · justify a motor choice from the application's requirements · test motors against those requirements.
+
+**Assessment:** A1 computer-based test, 30% (week 5) · A2 individual report built on the lab work, 70% (week 9).
+
+![The power chain from the grid to the motor](../assets/power-chain.svg)
+
+## Week 1: circuit fundamentals
+1. [[Electrical quantities]]: charge, current, voltage, resistance, power, energy and efficiency
+2. [[Kirchhoff's laws]]: KCL, KVL, series and parallel, dividers and the power balance
+3. [[Voltage node method]]: one equation for circuits with several sources
+4. [[Wheatstone bridge and thermistors]]: measuring small changes in resistance
+5. [[Power electronics overview]]: converter types, the components, and a MOSFET as a switch
+
+## Week 2: matrices, mesh analysis and transients
+1. [[Matrices and Cramer's rule]]: determinants and solving simultaneous equations
+2. [[Mesh analysis]]: every current in a multi-loop circuit at once
+3. [[RC transients]]: charging and discharging, and the time constant τ
 
 ## Week 3: from the wall socket to the motor
-This week follows one chain. Each link has its own guide.
-
-![Power chain from grid to motor](../assets/power-chain.svg)
-
-1. [[AC values]]: peak, RMS and average, and why parts must survive 325 V
-2. [[Bridge rectifiers]]: four diodes that make AC one-way, smoothing, ripple and heat
-3. [[Power switches]]: relay, SSR, BJT, MOSFET and IGBT, and how to choose
+1. [[AC values]]: peak, RMS and average
+2. [[Bridge rectifiers]]: AC to DC, smoothing, ripple and heat
+3. [[Power switches]]: relay, SSR, BJT, MOSFET and IGBT
 4. [[PWM]]: controlling power by switching fast
-5. [[MOSFET power loss]]: conduction and switching losses from a datasheet
-6. [[Thermal design and heatsinks]]: the thermal resistance ladder and sizing a heatsink
-7. [[DC-DC converters]]: buck and boost, derived from volt-second balance
-8. [[Motor drives]]: H-bridges, three-phase inverters and stepper drivers
-9. [[Week 3 formula sheet]]: everything on one page
+5. [[MOSFET power loss]]: conduction and switching losses
+6. [[Thermal design and heatsinks]]: thermal resistance and sizing a heatsink
+7. [[DC-DC converters]]: buck and boost
+8. [[Motor drives]]: H-bridges, inverters and stepper drivers
 
-> [!tip] Interactive version
-> There's a [one-page interactive version](/static/wm1ad-week3.html) with an animated bridge, a PWM slider and calculators for every formula.
+> [!tip] Interactive version of Week 3
+> The [Week 3 interactive page](/static/wm1ad-week3.html) has an animated bridge rectifier, a PWM slider and calculators for every formula.
 
-## Coming later
-Weeks 1–2 (circuit laws, mesh analysis, RC transients) and later weeks (motors, batteries, motor selection).
+## Revision
+- [[WM1AD formula sheet]]: every formula from the module on one page
+- [[glossary]]: every symbol across the course

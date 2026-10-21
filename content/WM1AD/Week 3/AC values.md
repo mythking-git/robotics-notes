@@ -5,7 +5,7 @@ tags: [WM1AD, week-3]
 ## The idea
 Mains electricity is a sine wave: it pushes current one way, then the other, **50 times a second** in the UK. The "230 V" printed on everything isn't the top of that wave. It's the **RMS** value, the steady DC voltage that would heat a kettle by the same amount. The wave itself peaks at **325 V**, and any part connected to mains has to survive that peak.
 
-![AC sine wave with peak, RMS and average levels](../assets/ac-levels.svg)
+![AC sine wave with peak, RMS and average levels](../../assets/ac-levels.svg)
 
 ## The three numbers
 | Symbol | Name | What it is | UK mains |
