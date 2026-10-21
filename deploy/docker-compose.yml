@@ -1,0 +1,51 @@
+# Portainer stack for notes.mythking.uk
+# Paste into Portainer → Stacks → Add stack. Then point Nginx Proxy Manager at <docker-host-ip>:8090.
+
+services:
+  notes-sync:
+    image: alpine/git:latest
+    container_name: notes-sync
+    restart: unless-stopped
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        if [ ! -d /site/.git ]; then
+          git clone --branch site --depth 1 https://github.com/mythking-git/robotics-notes.git /site
+        fi
+        while true; do
+          git -C /site fetch --depth 1 origin site && git -C /site reset --hard origin/site
+          sleep 300
+        done
+    volumes:
+      - notes:/site
+
+  notes-web:
+    image: caddy:2-alpine
+    container_name: notes-web
+    restart: unless-stopped
+    depends_on:
+      - notes-sync
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        cat > /etc/caddy/Caddyfile <<'CADDY'
+        :80 {
+          root * /srv
+          @git path /.git /.git/*
+          respond @git 404
+          try_files {path} {path}.html {path}/index.html
+          file_server
+          handle_errors {
+            rewrite * /404.html
+            file_server
+          }
+        }
+        CADDY
+        exec caddy run --config /etc/caddy/Caddyfile --adapter caddyfile
+    volumes:
+      - notes:/srv:ro
+    ports:
+      - "8090:80"
+
+volumes:
+  notes:
