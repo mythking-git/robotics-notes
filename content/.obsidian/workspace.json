@@ -11,10 +11,14 @@
             "id": "88097c5102149967",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "index.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "index"
             }
           }
         ]
@@ -183,5 +187,7 @@
     }
   },
   "active": "88097c5102149967",
-  "lastOpenFiles": []
+  "lastOpenFiles": [
+    "about.md"
+  ]
 }
