@@ -28,6 +28,9 @@ All three are assessed against the **same five areas**, at different depths.
 - **Accountability:** who's responsible when an AI system makes a decision? Bias, transparency and duty of care all apply.
 - **Public trust:** registration shows independently checked competence.
 
+## Degrees: AHEP
+UK-SPEC covers people. Its partner standard, **AHEP**, covers degrees: the 18 learning outcomes an accredited degree has to teach. Every module on this course is tagged against it. See [[Accreditation|accreditation, AHEP and the IET]].
+
 ## Engineering identity
 How you see yourself as an engineer, shaped by your education, your experience and your values. It isn't fixed: a degree is where you start building it. A useful exercise is rating yourself 1–5 against each area **with evidence** for each score, then picking the gaps to work on (see [[CPD and reflective practice]]).
 

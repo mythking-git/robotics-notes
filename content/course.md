@@ -2,7 +2,7 @@
 title: The course
 ---
 ## Overview
-**Robotics Engineering with Artificial Intelligence (BEng)** at **WMG, University of Warwick** is a three-year degree that combines mechanical, electrical and software engineering with AI, aimed at designing and building robotic systems. 2026–27 is the first year it has run. It's designed for **IET accreditation**, and there's an optional year in industry or research.
+**Robotics Engineering with Artificial Intelligence (BEng)** at **WMG, University of Warwick** is a three-year degree that combines mechanical, electrical and software engineering with AI, aimed at designing and building robotic systems. 2026–27 is the first year it has run. WMG plans to seek **IET accreditation** for it (see [[Accreditation|accreditation and AHEP]]), and there's an optional year in industry or research.
 
 ## How Year 1 is structured
 Year 1 is **120 credits**, all core. You have to pass every module (pass mark 40%), but Year 1 marks don't count towards your final degree classification. Years 2 and 3 count 30% and 70%.

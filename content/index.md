@@ -24,6 +24,7 @@ New to the course? Start with the [[course|course overview]]. Stuck on a symbol?
 |---|---|---|
 | ✍️ | **Practice questions** | Test-style questions with hidden worked answers: [[WM1AD practice questions\|WM1AD]] · [[WM1AC practice questions\|WM1AC]] · [[WM199 practice questions\|WM199]] |
 | 🧮 | [[Tools/index\|Tools]] | Using the [[Scientific calculator\|scientific calculator]] and [[MATLAB basics\|MATLAB]] |
+| 🎓 | [[Accreditation\|Accreditation and AHEP]] | How every module maps to the Engineering Council's AHEP outcomes, and the route to IET accreditation and CEng |
 | 🎯 | [[Careers and development/index\|Careers and development]] | Spring weeks, internships, placements, applications, CV outline, CPD and skills templates |
 
 ## Newest guides
