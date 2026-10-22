@@ -43,3 +43,6 @@ A 0.5 m rod AB has end A sliding along the floor to the right at 2 m/s (constant
 ## Check yourself
 > [!question]- 1. In the example, why is B's acceleration non-zero even though A moves at constant speed?
 > The rod's angle keeps changing, so ω changes (α ≠ 0) and there's a centripetal term. B's motion is constrained to the wall, so it speeds up as it falls.
+
+## Next
+Put it all together in the [[Slider-crank worked example]]: a test-style question with a speeding-up crank and a horizontal slider.

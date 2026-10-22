@@ -22,6 +22,7 @@ title: WM1AC · Mechanisms and Machines
 1. [[Gear trains and belt drives]]: what's shared at a contact
 2. [[Absolute motion analysis]]: geometry → velocity → acceleration
 3. [[Relative motion analysis]]: $\mathbf v_B = \mathbf v_A + \boldsymbol\omega \times \mathbf r_{B/A}$
+4. [[Slider-crank worked example]]: one test-style question that uses every Week 1–3 skill
 
 ## Coming next
 Week 4: forces, moments, static equilibrium, Newton's second law and centre of mass.

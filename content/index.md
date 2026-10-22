@@ -29,7 +29,7 @@ New to the course? Start with the [[course|course overview]]. Stuck on a symbol?
 
 ## Newest guides
 - **WM1AD Week 3:** [[Bridge rectifiers]] · [[MOSFET power loss]] · [[Thermal design and heatsinks]] · [[DC-DC converters]] · [[Motor drives]]
-- **WM1AC Week 3:** [[Gear trains and belt drives]] · [[Absolute motion analysis]] · [[Relative motion analysis]]
+- **WM1AC Week 3:** [[Gear trains and belt drives]] · [[Absolute motion analysis]] · [[Relative motion analysis]] · [[Slider-crank worked example]]
 - **WM199 Week 3:** [[Hazards and risk assessment]] · [[Designing for safety]]
 - **New:** [[Week 3 interactive]] · practice questions for every Block 1 module · [[Finding opportunities|careers guides]]
 
