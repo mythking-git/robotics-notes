@@ -24,8 +24,11 @@ title: WM1AC · Mechanisms and Machines
 3. [[Relative motion analysis]]: $\mathbf v_B = \mathbf v_A + \boldsymbol\omega \times \mathbf r_{B/A}$
 4. [[Slider-crank worked example]]: one test-style question that uses every Week 1–3 skill
 
-## Coming next
-Week 4: forces, moments, static equilibrium, Newton's second law and centre of mass.
+## Week 4: forces and kinetics
+1. [[Forces and moments]]: moments, Varignon's theorem, couples and resultants
+2. [[Static equilibrium and free body diagrams]]: supports, FBDs and solving for reactions
+3. [[Friction and Newton's second law]]: friction, $\sum F = ma$, connected bodies and $\sum M = I\alpha$
+4. [[Centre of mass]]: composite shapes and integrating with strips
 
 ## Revision
 - [[WM1AC practice questions]]: test-style questions with hidden worked answers

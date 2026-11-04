@@ -20,6 +20,10 @@ The running example in the seminars is a **campus delivery robot** that moves eq
 1. [[Hazards and risk assessment]]: hazard → harm, risk matrices, registers and controls
 2. [[Designing for safety]]: inherent safety, safe failure, Swiss cheese, HAZOP, FMEA and safe systems of work
 
+## Week 4: systems
+1. [[Systems thinking]]: elements, boundaries, feedback loops, emergence and leverage points
+2. [[System architecture and lifecycle]]: architecture vs design, decomposition, functional and physical views, and the lifecycle
+
 ## Revision
 - [[WM199 practice questions]]: test-style questions with hidden worked answers
 - [[glossary]]: every term across the course

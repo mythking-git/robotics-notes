@@ -33,6 +33,12 @@ title: WM1AD · Electrical Power and Motors
 
 9. [[Week 3 interactive]]: the whole week on one page, with live models and calculators
 
+## Week 4: motors for robotics
+1. [[Electric motors and DC motor types]]: how a DC motor makes torque, back-EMF, PMDC, shunt and series, losses and heat
+2. [[DC motor performance and selection]]: the calculation chain, gearboxes, and checking a motor against a requirement
+3. [[Stepper motors]]: steps, microstepping, unipolar vs bipolar, and the forward problem
+4. [[Sizing a drive motor]]: from a robot's mass, speed and slope to the torque and power its motor needs
+
 ## Revision
 - [[WM1AD practice questions]]: test-style questions with hidden worked answers
 - [[WM1AD formula sheet]]: every formula from the module on one page

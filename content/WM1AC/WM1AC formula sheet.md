@@ -31,6 +31,17 @@ tags: [WM1AC, formula-sheet]
 | Relative acceleration | $\mathbf a_B = \mathbf a_A + \boldsymbol\alpha\times\mathbf r_{B/A} - \omega^2\mathbf r_{B/A}$ | [[Relative motion analysis]] |
 | Cosine rule | $c^2 = a^2 + b^2 - 2ab\cos C$ | [[Absolute motion analysis]] |
 
+## Statics and kinetics
+| Want | Formula | Guide |
+|---|---|---|
+| Moment | $M_O = Fd$ (d perpendicular) · $M_O = F_yx - F_xy$ | [[Forces and moments]] |
+| Couple | $M = Fd$, the same about every point | [[Forces and moments]] |
+| Resultant | $F_{Rx} = \sum F_x$ · $F_{Ry} = \sum F_y$ · $(M_R)_O = \sum M + \sum Fd$ | [[Forces and moments]] |
+| Equilibrium | $\sum F_x = 0$ · $\sum F_y = 0$ · $\sum M = 0$ | [[Static equilibrium and free body diagrams]] |
+| Friction | static $F \le \mu_sN$ · kinetic $F = \mu_kN$ | [[Friction and Newton's second law]] |
+| Newton's 2nd law | $\sum F_x = ma_x$ · $\sum F_y = ma_y$ · $\sum M = I\alpha$, $I = mr^2$ (particle) | [[Friction and Newton's second law]] |
+| Centre of mass | $\bar x = \sum A_ix_i/\sum A_i$ · $\bar x = \int xy\,dx/A$ · $\bar y = \int \tfrac12y^2\,dx/A$ | [[Centre of mass]] |
+
 ## Conversions
 - 1 rev = $2\pi$ rad · rpm × $2\pi/60$ = rad/s
 - Angles in **radians** for $s = r\theta$ and $v = r\omega$

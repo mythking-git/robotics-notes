@@ -35,3 +35,21 @@ Short-answer questions on the professional topics. Answer in a few sentences, th
 **8.** Why is a light curtain better than a warning sign?
 > [!example]- Answer
 > A light curtain is an active engineering control that stops the machine without anyone having to notice or obey anything. A sign is procedural and depends on people behaving correctly, so it's the least reliable kind of barrier.
+
+## Week 4: systems
+**9.** A delivery robot is late every lunchtime. Give an example at each level of the iceberg model.
+> [!example]- Answer
+> Event: today's delivery was late · pattern: late every lunchtime · structure: one lift shared with the lunchtime crowd, and requests bunching at 12:00 · mental model: "deliveries should happen whenever someone asks". The structure and mental model are where a lasting fix lies.
+
+**10.** Is this loop balancing or reinforcing? *Queue of requests → robots dispatched → queue shrinks.*
+> [!example]- Answer
+> Queue → dispatched is **+**, dispatched → queue is **−**. One minus sign, so it's **balancing**: the fleet works to keep the queue short.
+
+**11.** Architecture or design? (a) an independent safety controller that can always stop the robot (b) the choice of lidar supplier (c) whether the robot uses lifts or stays on one floor
+> [!example]- Answer
+> (a) architecture · (b) design · (c) architecture
+
+**12.** In an allocation audit, "detect a stair edge" has no part allocated to it. Why does that matter, and what would you do?
+> [!example]- Answer
+> It's a capability gap, and a safety-critical one: the robot could drive off a step. Allocate it to a part (downward-facing cliff sensors), ideally with redundancy (two different sensing methods), and trace it back to a testable safety requirement.
+

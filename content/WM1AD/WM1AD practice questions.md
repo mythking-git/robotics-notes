@@ -2,7 +2,7 @@
 title: WM1AD practice questions
 tags: [WM1AD, practice]
 ---
-Test-style questions covering Weeks 1–3, with my own numbers. Try each one on paper with a calculator before opening the answer. Answers are rounded to 3 significant figures.
+Test-style questions covering Weeks 1–4, with my own numbers. Try each one on paper with a calculator before opening the answer. Answers are rounded to 3 significant figures.
 
 > [!tip] How to use this page
 > Time yourself: test questions are usually 5–10 minutes each. Write units on every line, and finish circuit questions with a power balance.
@@ -77,3 +77,39 @@ Test-style questions covering Weeks 1–3, with my own numbers. Try each one on 
 **15.** Explain why switching loss becomes important in DC-DC converters.
 > [!example]- Answer
 > Switching loss is proportional to frequency. Converters run at 100+ kHz to keep the inductor and capacitor small, so energy lost in each transition happens hundreds of thousands of times a second, and it can match or exceed conduction loss.
+
+## Week 4: motors
+**16.** A 24 V PMDC motor has $R_a = 1$ Ω and $K_t = K_e = 0.05$. At 3 A, find its speed, torque, output power and efficiency.
+> [!example]- Answer
+> $E_b = 24 - 3 = 21$ V → $\omega = 21/0.05 = 420$ rad/s = **4010 rpm**
+> $T = 0.05 \times 3 = $ **0.15 N·m** · $P_{out} = 0.15 \times 420 = $ **63 W** · $P_{in} = 72$ W → **$\eta = 87.5\%$**
+
+**17.** The same motor jams. What current flows, and how much heat is generated in the winding?
+> [!example]- Answer
+> No back-EMF: $I = 24/1 = $ **24 A** (8× the running current) · $P = 24^2 \times 1 = $ **576 W**, all heat. The driver must limit current or cut out.
+
+**18.** A motor runs at 3000 rpm through an 8:1 gearbox to a 0.06 m radius wheel. How fast does the robot travel?
+> [!example]- Answer
+> Wheel $= 375$ rpm → $\omega_w = 39.3$ rad/s → $v = 39.3 \times 0.06 = 2.36$ m/s = **8.48 km/h**
+
+**19.** A motor rated at 100 W delivers 85 W in operation. Find its power utilisation and reserve. Is that a good choice?
+> [!example]- Answer
+> Utilisation **85%**, reserve **15 W**. It works, with a modest margin for slopes and payload; any more than about 90% would leave very little headroom.
+
+**20.** A 1.8° stepper with 1/8 microstepping runs at 300 rpm through a 3:1 gearbox, with $T_h = 0.4$ N·m. Find $f_{step}$, $f_{\mu step}$, the output speed and the output torque.
+> [!example]- Answer
+> $f_{step} = 200 \times 300/60 = $ **1000 Hz** · $f_{\mu step} = $ **8 kHz** · $n_{out} = $ **100 rpm** · $T_{out} = 0.4 \times 3 = $ **1.2 N·m**
+
+**21.** A 15 kg robot on a flat floor must accelerate at 1 m/s² ($C_{rr} = 0.02$). It has two driven 0.05 m wheels, a 5:1 gearbox at 90% efficiency, and a safety factor of 1.5. What rated torque does each motor need?
+> [!example]- Answer
+> $F = 15 + 2.94 = 17.9$ N → $T_w = 17.9 \times 0.05/2 = 0.449$ N·m → $T_m = 0.449/(5 \times 0.9) = 0.0997$ N·m → rated **0.15 N·m**. See [[Sizing a drive motor]].
+
+**22.** Why is a series-wound DC motor unsuitable for a mobile robot's wheels?
+> [!example]- Answer
+> Its speed depends strongly on load, and if the load is lost (a wheel lifts) the weakened field makes it run away to dangerous speeds. A PMDC motor's fixed field gives predictable speed control.
+
+**23.** Give two advantages and two disadvantages of a stepper motor for positioning.
+> [!example]- Answer
+> **For:** open-loop positioning with no sensor; high holding torque (also: simple step/direction control, no brushes).
+> **Against:** missed steps go undetected under overload; torque falls with speed (also: resonance, current drawn even when stationary).
+

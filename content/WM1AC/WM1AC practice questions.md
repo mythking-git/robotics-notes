@@ -2,7 +2,7 @@
 title: WM1AC practice questions
 tags: [WM1AC, practice]
 ---
-Test-style questions covering Weeks 1–3, with my own numbers. Try each one before opening the answer. Use radians unless the question says otherwise.
+Test-style questions covering Weeks 1–4, with my own numbers. Try each one before opening the answer. Use radians unless the question says otherwise.
 
 > [!tip] Before you start
 > Decide first: differentiate, integrate, or constant-acceleration equations? (See the table in [[Calculus for kinematics]].)
@@ -64,3 +64,43 @@ Test-style questions covering Weeks 1–3, with my own numbers. Try each one bef
 **12.** Why do two meshing gears share a tangential velocity but not an angular velocity?
 > [!example]- Answer
 > Their teeth move together at the contact point, so the rim speeds $r\omega$ are equal. Different radii then need different ω.
+
+## Week 4: statics and kinetics
+**13.** A 60 N force acts at the end of a 0.5 m horizontal bar pinned at O, pointing up and away from O at 25° above the horizontal. Find its moment about O.
+> [!example]- Answer
+> Only the vertical component has a moment arm (the horizontal one acts along the bar, through O).
+> $M_O = 60\sin25° \times 0.5 = 25.4 \times 0.5 = $ **12.7 N·m anticlockwise**
+
+**14.** A 3 m beam is pinned at A (its left end) and rests on a roller at B, 2.5 m from A. It carries 400 N at 1 m from A and 200 N at the free end (3 m from A). Find the reactions.
+> [!example]- Answer
+> $\sum M_A = 0$: $B(2.5) = 400(1) + 200(3) = 1000$ → **$B = 400$ N ↑**
+> $\sum F_y = 0$: $A_y = 600 - 400 = $ **200 N ↑** · $A_x = 0$
+> See [[Static equilibrium and free body diagrams]].
+
+**15.** An 8 kg box sits on a 30° ramp with $\mu_s = 0.65$. Does it slide? What friction force acts?
+> [!example]- Answer
+> $\tan30° = 0.577 < 0.65$, so **it stays put**.
+> Friction is only as big as needed: $F = mg\sin30° = $ **39.2 N** (below the limit $\mu_sN = 0.65 \times 68.0 = 44.2$ N).
+
+**16.** A 25 kg robot must accelerate at 1.5 m/s² on a flat floor with $C_{rr} = 0.02$. What total driving force do its wheels need?
+> [!example]- Answer
+> $F = ma + C_{rr}mg = 37.5 + 4.9 = $ **42.4 N**
+
+**17.** A 6 kg block on a table ($\mu_k = 0.2$) is pulled by a rope over a smooth pulley by a hanging 5 kg mass. Find the acceleration and the tension.
+> [!example]- Answer
+> Hanging: $5g - T = 5a$ · block: $T - 0.2(6g) = 6a$. Adding: $5g - 1.2g = 11a$ → **$a = 3.39$ m/s²**
+> $T = 5(9.81 - 3.39) = $ **32.1 N**
+
+**18.** A T-shaped section has a 120 × 20 mm flange on top of a 20 × 80 mm web (total height 100 mm), centred. Find $\bar y$ from the bottom.
+> [!example]- Answer
+> Flange: 2400 mm² at y = 90 · web: 1600 mm² at y = 40
+> $\bar y = (2400 \times 90 + 1600 \times 40)/4000 = $ **70 mm** (and $\bar x$ is on the centreline by symmetry)
+
+**19.** What's a two-force member, and why does it make an equilibrium problem easier?
+> [!example]- Answer
+> A link pinned at both ends with no load in between. It can only carry force along its length (tension or compression), so its unknown force has a known direction: one unknown instead of two.
+
+**20.** Why does a slider-crank need more torque to start than to keep running?
+> [!example]- Answer
+> Static friction exceeds kinetic friction; the motor must accelerate all the moving masses from rest ($\sum F = ma$, $\sum M = I\alpha$); and near dead centre the crank has very little leverage on the rod.
+

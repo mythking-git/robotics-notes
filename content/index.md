@@ -28,10 +28,10 @@ New to the course? Start with the [[course|course overview]]. Stuck on a symbol?
 | 🎯 | [[Careers and development/index\|Careers and development]] | Spring weeks, internships, placements, applications, CV outline, CPD and skills templates |
 
 ## Newest guides
-- **WM1AD Week 3:** [[Bridge rectifiers]] · [[MOSFET power loss]] · [[Thermal design and heatsinks]] · [[DC-DC converters]] · [[Motor drives]]
-- **WM1AC Week 3:** [[Gear trains and belt drives]] · [[Absolute motion analysis]] · [[Relative motion analysis]] · [[Slider-crank worked example]]
-- **WM199 Week 3:** [[Hazards and risk assessment]] · [[Designing for safety]]
-- **New:** [[Week 3 interactive]] · practice questions for every Block 1 module · [[Finding opportunities|careers guides]]
+- **WM1AC Week 4:** [[Forces and moments]] · [[Static equilibrium and free body diagrams]] · [[Friction and Newton's second law]] · [[Centre of mass]]
+- **WM1AD Week 4:** [[Electric motors and DC motor types]] · [[DC motor performance and selection]] · [[Stepper motors]] · [[Sizing a drive motor]]
+- **WM199 Week 4:** [[Systems thinking]] · [[System architecture and lifecycle]]
+- **Updated:** Week 4 practice questions, formula sheet rows and glossary terms for every Block 1 module
 
 ## How to use these guides
 1. Read **the idea** first. If that makes sense, the maths will too.

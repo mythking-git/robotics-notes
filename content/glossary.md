@@ -36,20 +36,32 @@ Every symbol and term used across the guides, with a link to where it's explaine
 | $V_{GS(th)}$ | MOSFET gate threshold voltage | V | [[Power switches]] |
 | $V_{RRM}$ | Diode's maximum repeated reverse voltage | V | [[Bridge rectifiers]] |
 | $\Delta V$ | Ripple voltage | V | [[Bridge rectifiers]] |
+| $K_t$, $K_e$ | Motor torque constant and back-EMF constant (equal in SI) | N·m/A, V·s/rad | [[DC motor performance and selection]] |
+| $E_b$ | Back-EMF, the voltage a spinning motor generates against the supply | V | [[Electric motors and DC motor types]] |
+| $\mu_s$, $\mu_k$ | Static and kinetic friction coefficients | – | [[Friction and Newton's second law]] |
+| $N$ | Normal reaction force | N | [[Friction and Newton's second law]] |
+| $\bar x$, $\bar y$ | Centre of mass coordinates | m | [[Centre of mass]] |
+| $I$ (mechanics) | Mass moment of inertia; $mr^2$ for a particle | kg·m² | [[Friction and Newton's second law]] |
+| $T_h$ | Stepper holding torque | N·m | [[Stepper motors]] |
+| $C_{rr}$ | Rolling resistance coefficient | – | [[Sizing a drive motor]] |
 
 ## Terms
 | Term | Meaning | Guide |
 |---|---|---|
 | ALARP | As low as reasonably practicable: reduce risk unless the cost is grossly disproportionate | [[Designing for safety]] |
+| Back-EMF | The voltage a spinning motor generates, opposing the supply; it sets the speed | [[Electric motors and DC motor types]] |
 | Boost / buck converter | DC-DC converters that step voltage up / down | [[DC-DC converters]] |
 | CEng / IEng / EngTech | Professional registration titles | [[UK-SPEC and professional registration]] |
 | Circular economy | Reuse, repair and recycle instead of make, use, dispose | [[Sustainability and lifecycle thinking]] |
+| Couple | Two equal, opposite, parallel forces: rotation with no net force | [[Forces and moments]] |
 | CPD | Continuing professional development | [[CPD and reflective practice]] |
 | Cramer's rule | Solving equations with determinants, $x_k = \Delta_k/\Delta$ | [[Matrices and Cramer's rule]] |
 | Determinant | A single number from a square matrix; zero means no inverse | [[Matrices and Cramer's rule]] |
 | Duty of care | Obligation to avoid foreseeable harm to anyone affected by your work | [[Engineering ethics and duty of care]] |
-| FMEA | Failure modes and effects analysis, bottom-up | [[Designing for safety]] |
+| Feedback loop | Balancing (seeks a goal) or reinforcing (amplifies change) | [[Systems thinking]] |
 | Flyback diode | Diode across an inductive load to absorb the switch-off spike | [[Power electronics overview]] |
+| FMEA | Failure modes and effects analysis, bottom-up | [[Designing for safety]] |
+| Free body diagram | The body drawn on its own with every external force and reaction | [[Static equilibrium and free body diagrams]] |
 | General plane motion | Translation and rotation together (e.g. a connecting rod) | [[Rigid body rotation]] |
 | Gibbs' cycle | Six-stage model for reflecting on an experience | [[CPD and reflective practice]] |
 | H-bridge | Four switches that let a DC motor run both ways | [[Motor drives]] |
@@ -62,21 +74,28 @@ Every symbol and term used across the guides, with a link to where it's explaine
 | Inverter | Converts DC to AC, e.g. to drive a brushless motor | [[Motor drives]] |
 | KCL / KVL | Kirchhoff's current and voltage laws | [[Kirchhoff's laws]] |
 | LCA / LCC / S-LCA | Life cycle assessment, costing and social assessment | [[Sustainability and lifecycle thinking]] |
+| Leverage point | A place to intervene in a system; higher points are more powerful | [[Systems thinking]] |
 | LOTO | Lock-out/tag-out: isolating energy before working on a machine | [[Designing for safety]] |
 | Mesh analysis | Solving a circuit with one current per loop | [[Mesh analysis]] |
+| Microstepping | Splitting a stepper's steps by varying the phase currents | [[Stepper motors]] |
 | MOSFET | Voltage-controlled transistor, the robotics default switch | [[Power switches]] |
 | NTC / PTC | Thermistors whose resistance falls / rises with temperature | [[Wheatstone bridge and thermistors]] |
 | Power balance | Check that power dissipated equals power supplied | [[Kirchhoff's laws]] |
+| Power utilisation | How hard a motor works compared with its rating, $P_{out}/P_{rated}$ | [[DC motor performance and selection]] |
 | Problem statement | Who has the problem, what it is and the constraints, with no solution | [[Writing a problem statement]] |
 | PWM | Pulse width modulation: controlling average power by fast switching | [[PWM]] |
 | Rectifier | Converts AC to DC | [[Bridge rectifiers]] |
-| Risk | Likelihood × severity | [[Hazards and risk assessment]] |
 | Risk register | Live list of risks, scores, controls and owners | [[Hazards and risk assessment]] |
+| Risk | Likelihood × severity | [[Hazards and risk assessment]] |
 | RMS | Root mean square: the heating-equivalent value of AC | [[AC values]] |
 | Safe system of work | Written procedure for doing a task safely | [[Designing for safety]] |
 | SMART | Specific, measurable, attainable, relevant, time-bound goals | [[CPD and reflective practice]] |
+| Stall current | $V/R_a$: the current when a DC motor is held still | [[Electric motors and DC motor types]] |
 | Swiss cheese model | Layered defences fail when their holes line up | [[Designing for safety]] |
+| System architecture | The structural choices that shape a system and are hard to undo | [[System architecture and lifecycle]] |
+| System of systems | Independently owned systems working together; nobody owns the whole | [[Systems thinking]] |
 | Triple bottom line | People, planet, profit | [[Sustainability and lifecycle thinking]] |
+| Two-force member | A link loaded only at its two pins, so its force acts along it | [[Static equilibrium and free body diagrams]] |
 | UK-SPEC | The UK standard for professional engineering competence | [[UK-SPEC and professional registration]] |
 | Voltage node method | KCL at one node to solve multi-source circuits | [[Voltage node method]] |
 | Wheatstone bridge | Two dividers whose difference measures small resistance changes | [[Wheatstone bridge and thermistors]] |

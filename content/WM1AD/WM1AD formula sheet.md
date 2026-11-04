@@ -49,8 +49,25 @@ tags: [WM1AD, formula-sheet]
 | Buck L and C | $L = V_{out}(1 - D)/(F_{SW}\Delta I_L)$ · $C \ge \Delta I_L/(8F_{SW}\Delta V)$ | [[DC-DC converters]] |
 | Three-phase drive | $I_{phase} = P_{out}/(\sqrt3V_L\cos\varphi\,\eta)$ · $I_{D,RMS} = I_{phase}/\sqrt2$ · $V_L = V_{DC}/\sqrt2$ | [[Motor drives]] |
 
+## Week 4: motors
+| Want | Formula | Guide |
+|---|---|---|
+| Force and EMF on a conductor | $F = BIL$ · $e = BLv$ | [[Electric motors and DC motor types]] |
+| DC motor model | $V = I_aR_a + K_e\omega$ · $T = K_tI_a$ · $K_t = K_e$ (SI) | [[Electric motors and DC motor types]] |
+| Stall current | $I_{stall} = V/R_a$ | [[Electric motors and DC motor types]] |
+| Motor heat | $\Delta T = P_{loss}R_\theta$ | [[Electric motors and DC motor types]] |
+| The chain | $E_b = V - I_aR_a$ → $\omega = E_b/K_e$ → $n = 60\omega/2\pi$ → $P_{out} = T\omega$ | [[DC motor performance and selection]] |
+| Robot side | $n_w = n/G$ · $v = \omega_wr$ · km/h $= 3.6v$ · $T_w = TG$ | [[DC motor performance and selection]] |
+| Selection | utilisation $= P_{out}/P_{rated}$ · reserve $= P_{rated} - P_{out}$ | [[DC motor performance and selection]] |
+| Stepper resolution | $N = 360°/\text{step}$ · $N_\mu = NM$ · $\theta_\mu = \text{step}/M$ | [[Stepper motors]] |
+| Stepper rates | $f_{step} = NS_m/60$ · $f_\mu = f_{step}M$ · $n_{out} = S_m/G$ · $T_{out} = T_hG$ | [[Stepper motors]] |
+| Stepper checks | $P_{phase} = RI^2$ · $\tau_e = L/R$ · $SF = T_h/T_{load}$ · $P = T_h\omega_m$ | [[Stepper motors]] |
+| Drive sizing | $F = ma + C_{rr}mg + mg\sin\theta$ · $T_m = Fr/(N_wG\eta_g)$ · × SF | [[Sizing a drive motor]] |
+
 ## Numbers worth knowing
 - UK mains: 230 V RMS, 325 V peak, 50 Hz
 - RC: 63% at 1τ, ~100% at 5τ
 - Silicon: 175 °C absolute max; design to ≤ 120 °C
 - MOSFET below ~700 V; IGBT above ~1000 V
+- Hybrid stepper: 1.8°, 200 steps per revolution
+- Motor windings: above about 130 °C exceeds typical insulation ratings
